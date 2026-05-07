@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAMPARK AI — 1092 Helpline Intelligence System</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b12;--bg2:#0d1220;--bg3:#131929;--bg4:#1a2035;--surface:#1e2840;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#dce4f5;--text2:#8694b0;--text3:#4a5670;
+  --accent:#ff5f2e;--accent2:#ff8c5a;
+  --blue:#4a9eff;--blue2:#1a6ef5;--blue-dim:rgba(74,158,255,0.12);
+  --teal:#1ed9a0;--teal-dim:rgba(30,217,160,0.1);
+  --amber:#ffb340;--amber-dim:rgba(255,179,64,0.1);
+  --red:#ff3d5a;--red-dim:rgba(255,61,90,0.12);
+  --green:#22c87a;--purple:#a855f7;
+  --font:'DM Sans',system-ui,sans-serif;--font-head:'Syne',system-ui,sans-serif;
+  --font-mono:'Share Tech Mono',monospace;
+  --r:8px;--r-lg:14px;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);font-size:13px;overflow:hidden}
+
+/* ══ SCREENS ══ */
+.screen{display:none;height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* ══════════════ LANDING ══════════════ */
+#landing{align-items:center;justify-content:center;position:relative;overflow:hidden}
+.land-bg{position:absolute;inset:0;pointer-events:none}
+.land-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(74,158,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(74,158,255,0.04) 1px,transparent 1px);background-size:50px 50px}
+.land-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(255,95,46,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.land-content{position:relative;text-align:center;max-width:720px;padding:40px 20px}
+.land-logo{display:inline-flex;align-items:center;gap:14px;margin-bottom:28px}
+.land-logo-icon{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--accent),#ff1f6e);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:28px;color:#fff;box-shadow:0 0 40px rgba(255,95,46,0.4)}
+.land-logo-text{font-family:var(--font-head);font-size:36px;font-weight:800;letter-spacing:-1px}
+.land-logo-text span{color:var(--accent)}
+.land-subtitle{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-top:4px}
+.land-tagline{font-size:21px;font-weight:300;color:var(--text2);line-height:1.55;margin-bottom:10px}
+.land-tagline strong{color:var(--text);font-weight:600}
+.land-desc{font-size:13.5px;color:var(--text3);line-height:1.75;margin-bottom:32px}
+.land-features{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.land-feat{padding:7px 14px;border-radius:50px;background:var(--bg3);border:1px solid var(--border2);font-size:12px;color:var(--text2)}
+.land-feat span{margin-right:5px}
+.land-cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent),#ff1f6e);color:#fff;padding:15px 38px;border-radius:50px;font-family:var(--font-head);font-weight:700;font-size:16px;border:none;cursor:pointer;letter-spacing:0.5px;box-shadow:0 0 30px rgba(255,95,46,0.35);transition:all 0.2s}
+.land-cta:hover{transform:translateY(-2px);box-shadow:0 4px 40px rgba(255,95,46,0.5)}
+.land-langs{margin-top:22px;font-size:12px;color:var(--text3)}
+.lang-chips{display:flex;gap:8px;justify-content:center;margin-top:7px}
+.lang-chip{padding:4px 12px;border-radius:4px;background:var(--bg3);border:1px solid var(--border);font-size:11px;color:var(--text2)}
+
+/* ══════════════ APP ══════════════ */
+#app{background:var(--bg)}
+
+/* ── MODULE TABS (global nav bar) ── */
+.module-tabs{display:flex;align-items:center;background:#06090f;border-bottom:2px solid var(--border);padding:0 20px;flex-shrink:0;height:40px;gap:4px}
+.module-tabs-label{font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-right:10px}
+.mtab{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:5px 5px 0 0;font-size:11px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--text3);font-family:var(--font);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s;letter-spacing:0.3px}
+.mtab:hover{color:var(--text2);background:var(--bg2)}
+.mtab.active{color:var(--text);border-bottom-color:var(--accent);background:var(--bg2)}
+.mtab .mtab-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.6}
+
+/* ── MODULE PANELS ── */
+.module{display:none;flex:1;flex-direction:column;overflow:hidden}
+.module.active{display:flex}
+
+/* ══════════════ TOPBAR ══════════════ */
+.topbar{display:flex;align-items:center;gap:16px;padding:0 20px;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;z-index:50}
+.tb-logo{display:flex;align-items:center;gap:10px}
+.tb-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#ff1f6e);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:13px;color:#fff}
+.tb-name{font-family:var(--font-head);font-weight:800;font-size:15px}
+.tb-name span{color:var(--accent)}
+.tb-div{width:1px;height:24px;background:var(--border2)}
+.tb-stats{display:flex;gap:20px}
+.tb-stat-v{font-family:var(--font-head);font-size:17px;font-weight:700;line-height:1}
+.tb-stat-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-top:1px}
+.tb-right{display:flex;align-items:center;gap:12px;margin-left:auto}
+.sys-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:50px;background:var(--teal-dim);border:1px solid rgba(30,217,160,0.2);font-size:11px;color:var(--teal)}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(30,217,160,0.5)}50%{box-shadow:0 0 0 4px rgba(30,217,160,0)}}
+.tb-clock{font-family:var(--font-head);font-size:16px;font-weight:600}
+.tb-agent{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 6px;border-radius:50px;background:var(--bg3);border:1px solid var(--border2)}
+.av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;background:linear-gradient(135deg,var(--blue2),var(--purple))}
+
+/* ── QUICK ACTIONS ── */
+.qbar{display:flex;align-items:center;gap:6px;padding:6px 20px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.qbar-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-right:4px}
+.qbtn{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:5px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);font-size:11px;font-family:var(--font);cursor:pointer;transition:all 0.15s}
+.qbtn:hover{background:var(--bg4);color:var(--text);border-color:var(--border2)}
+.qbtn.active-mode{background:var(--red-dim);color:var(--red);border-color:rgba(255,61,90,0.3)}
+.qbtn.rec-active{background:rgba(255,61,90,0.15);color:var(--red);border-color:rgba(255,61,90,0.3);animation:recBlink 1.2s infinite}
+@keyframes recBlink{0%,100%{opacity:1}50%{opacity:0.6}}
+.alert-strip{margin-left:auto;display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:5px;background:var(--amber-dim);border:1px solid rgba(255,179,64,0.25);font-size:11px;color:var(--amber)}
+
+/* ── COLUMNS ── */
+.cols{display:flex;flex:1;overflow:hidden}
+
+/* ── LEFT PANEL ── */
+.left-panel{width:390px;flex-shrink:0;display:flex;flex-direction:column;background:var(--bg2);border-right:1px solid var(--border);overflow:hidden}
+.phead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.phead-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
+.lang-badge{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;background:var(--teal-dim);border:1px solid rgba(30,217,160,0.2);font-size:10px;color:var(--teal);font-weight:600}
+
+.caller-card{padding:12px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.caller-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.caller-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#ff3d5a,var(--accent));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:700;font-size:15px;color:#fff;position:relative;flex-shrink:0}
+.live-ring{position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--red);animation:liveRing 1.5s ease-in-out infinite}
+@keyframes liveRing{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(1.1)}}
+.caller-info h3{font-size:15px;font-weight:600;line-height:1.2}
+.caller-info p{font-size:11px;color:var(--text2);margin-top:2px}
+.caller-badges{display:flex;gap:5px;align-items:center;margin-left:auto;flex-direction:column;align-items:flex-end}
+.badge{padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+.badge-crit{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,61,90,0.3)}
+.badge-live{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,61,90,0.25);display:flex;align-items:center;gap:3px}
+.blink-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.call-metas{display:flex;gap:18px}
+.cmeta-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px}
+.cmeta-val{font-family:var(--font-head);font-size:14px;font-weight:700;margin-top:1px}
+
+.tsec{padding:8px 14px 4px;flex-shrink:0}
+.tsec-hdr{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:6px}
+.t-live{display:flex;align-items:center;gap:4px;color:var(--teal);font-size:9px}
+.transcript{flex:1;overflow-y:auto;padding:8px 14px;display:flex;flex-direction:column;gap:8px}
+.transcript::-webkit-scrollbar{width:3px}
+.transcript::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.msg-meta{font-size:10px;color:var(--text3);margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.msg-meta .lbl-ai{color:var(--accent);font-weight:600}
+.msg-meta .lbl-caller{color:var(--blue)}
+.msg-bubble{padding:8px 11px;border-radius:8px;font-size:12px;line-height:1.55;white-space:pre-wrap}
+.msg-bubble.ai{background:rgba(255,95,46,0.08);border-left:2px solid var(--accent)}
+.msg-bubble.caller{background:var(--blue-dim);border-left:2px solid var(--blue)}
+.msg-bubble.system{background:var(--teal-dim);border-left:2px solid var(--teal);font-style:italic}
+.msg-conf{font-size:10px;margin-top:4px;font-weight:600}
+.typing-indicator{display:flex;align-items:center;gap:4px;padding:8px 11px}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:tdot 1.2s infinite}
+.tdot:nth-child(2){animation-delay:0.2s}.tdot:nth-child(3){animation-delay:0.4s}
+@keyframes tdot{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.1)}}
+
+.verif-box{margin:8px 14px;padding:12px;border-radius:var(--r);border:1px solid rgba(30,217,160,0.25);background:rgba(30,217,160,0.05);flex-shrink:0}
+.verif-title{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--teal);margin-bottom:6px;display:flex;align-items:center;gap:5px;font-weight:700}
+.verif-summary{font-size:12px;line-height:1.55;color:var(--text);margin-bottom:10px}
+.verif-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.vtag{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:500;background:var(--bg3);border:1px solid var(--border2);color:var(--text2)}
+.vtag.urgent{background:var(--red-dim);color:var(--red);border-color:rgba(255,61,90,0.25)}
+.vtag.lang{background:var(--teal-dim);color:var(--teal);border-color:rgba(30,217,160,0.2)}
+.verif-btns{display:flex;gap:8px}
+.vbtn{flex:1;padding:8px 0;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none;font-family:var(--font);transition:all 0.15s}
+.vbtn-yes{background:rgba(30,217,160,0.15);color:var(--teal);border:1px solid rgba(30,217,160,0.3)}
+.vbtn-yes:hover{background:rgba(30,217,160,0.25)}
+.vbtn-no{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,61,90,0.25)}
+.vbtn-no:hover{background:rgba(255,61,90,0.2)}
+
+.waveform-wrap{padding:8px 14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);flex-shrink:0}
+.analytics{padding:10px 14px;border-top:1px solid var(--border);flex-shrink:0;display:flex;gap:14px}
+.anal-block{flex:1}
+.anal-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
+.stress-num{font-family:var(--font-head);font-size:20px;font-weight:700;line-height:1}
+.stress-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.sbar-wrap{height:6px;background:var(--bg4);border-radius:3px;overflow:hidden;margin-top:5px}
+.sbar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));transition:width 0.5s}
+.emotion-tags{display:flex;flex-wrap:wrap;gap:4px}
+.etag{padding:3px 8px;border-radius:3px;font-size:10px;font-weight:500}
+.etag.red{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,61,90,0.2)}
+.etag.amber{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,179,64,0.2)}
+
+.conf-row{display:flex;align-items:center;gap:8px;padding:8px 14px;border-top:1px solid var(--border);background:rgba(74,158,255,0.03);flex-shrink:0}
+.conf-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;white-space:nowrap}
+.cbar-wrap{flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.cbar{height:100%;border-radius:2px;background:var(--amber);transition:width 0.5s}
+.conf-val{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--amber);white-space:nowrap}
+.stress-flag{font-size:10px;color:var(--red);white-space:nowrap}
+
+.call-actions{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--border);flex-shrink:0}
+.cabtn{flex:1;padding:9px 0;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;cursor:pointer;border:none;font-family:var(--font-head);transition:all 0.15s}
+.cabtn-end{background:var(--red);color:#fff}.cabtn-end:hover{background:#e02040}
+.cabtn-transfer{background:var(--bg4);color:var(--blue);border:1px solid rgba(74,158,255,0.3)}.cabtn-transfer:hover{background:rgba(74,158,255,0.1)}
+.cabtn-escalate{background:var(--bg4);color:var(--amber);border:1px solid rgba(255,179,64,0.3)}.cabtn-escalate:hover{background:rgba(255,179,64,0.1)}
+
+.input-area{padding:10px 14px;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg3)}
+.input-row{display:flex;gap:8px}
+.input-lang-sel{padding:6px 8px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--font);font-size:11px;cursor:pointer}
+.input-field{flex:1;padding:8px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--font);font-size:12px;height:36px;outline:none;transition:border-color 0.15s}
+.input-field:focus{border-color:var(--blue)}
+.input-field::placeholder{color:var(--text3)}
+.send-btn{padding:0 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.send-btn:hover{background:var(--accent2)}
+.send-btn:disabled{opacity:0.4;cursor:not-allowed}
+.input-hint{font-size:10px;color:var(--text3);margin-top:5px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.hint-chip{padding:2px 6px;background:var(--bg4);border:1px solid var(--border);border-radius:3px;cursor:pointer;transition:all 0.1s}
+.hint-chip:hover{background:var(--surface);color:var(--text2)}
+
+/* ── RIGHT PANEL ── */
+.right-panel{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.right-top{flex:1;display:flex;overflow:hidden}
+.map-section{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.map-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg2)}
+.map-filters{display:flex;gap:5px}
+.flt-btn{padding:4px 10px;border-radius:4px;font-size:10px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all 0.15s}
+.flt-btn:hover,.flt-btn.active{background:var(--blue-dim);color:var(--blue);border-color:rgba(74,158,255,0.3)}
+.map-wrap{flex:1;position:relative;background:#08111e;overflow:hidden}
+
+.side-metrics{width:220px;flex-shrink:0;background:var(--bg2);display:flex;flex-direction:column;border-right:1px solid var(--border)}
+.sm-head{padding:10px 14px;border-bottom:1px solid var(--border);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3)}
+.sm-cards{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto}
+.sm-card{padding:10px 12px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--border)}
+.sm-card-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px}
+.sm-card-val{font-family:var(--font-head);font-size:22px;font-weight:700;margin-top:4px;line-height:1}
+.sm-card-change{font-size:10px;margin-top:4px}
+.up{color:var(--teal)}.dn{color:var(--red)}.neutral{color:var(--text3)}
+
+.abar-row{display:flex;align-items:center;gap:8px}
+.abar-label{font-size:11px;color:var(--text2);width:60px}
+.abar-wrap{flex:1;height:6px;background:var(--bg4);border-radius:3px;overflow:hidden}
+.abar-fill{height:100%;border-radius:3px;transition:width 0.5s}
+
+.bottom-metrics{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0}
+.bm-card{padding:10px 14px;border-right:1px solid var(--border)}
+.bm-card:last-child{border-right:none}
+.bm-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px}
+.bm-val{font-family:var(--font-head);font-size:20px;font-weight:700;margin-top:3px;line-height:1}
+.bm-change{font-size:10px;margin-top:3px}
+
+/* ══════════════ EMERGENCY RESPONSE MODULE ══════════════ */
+#module-emergency{background:var(--bg)}
+.erm-pages{flex:1;overflow:hidden;position:relative}
+.erm-page{display:none;height:100%;flex-direction:column;overflow:hidden}
+.erm-page.active{display:flex}
+
+/* ER Topbar - reuse sampark style but with ER data */
+.er-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.er-logo{display:flex;align-items:center;gap:10px}
+.er-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#b71c1c,var(--red));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff}
+.er-logo-text{font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:0.5px;line-height:1.2}
+.er-logo-sub{font-size:9px;color:var(--text3);letter-spacing:2px}
+.er-stats{display:flex;gap:20px}
+.er-stat-num{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;line-height:1}
+.er-stat-label{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+
+/* ER Quickbar */
+.er-quickbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:40px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.er-quickbar-left{display:flex;align-items:center;gap:6px}
+.er-qa-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:4px 12px;border-radius:4px;font-size:11px;font-family:var(--font);cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+.er-qa-btn:hover{border-color:var(--red);color:var(--text)}
+.er-qa-btn.active-mode{background:var(--red-dim);color:var(--red);border-color:rgba(255,61,90,0.3)}
+.er-weather{background:rgba(255,61,90,0.08);border:1px solid rgba(255,61,90,0.25);border-radius:4px;padding:4px 12px;font-size:11px;color:var(--red);display:flex;align-items:center;gap:8px}
+.er-view-btn{background:var(--red);color:#fff;border:none;padding:4px 12px;border-radius:4px;font-size:11px;font-family:var(--font);cursor:pointer;font-weight:700;transition:all 0.15s}
+.er-view-btn:hover{background:#c0203a}
+
+/* ER Sub-nav */
+.er-subnav{display:flex;align-items:center;gap:6px;padding:6px 20px;background:var(--bg3);border-bottom:1px solid var(--border);flex-shrink:0}
+.er-subnav-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-right:6px}
+.er-snav-btn{padding:5px 14px;border-radius:4px;font-size:11px;cursor:pointer;background:var(--bg4);border:1px solid var(--border);color:var(--text2);font-family:var(--font);font-weight:500;transition:all 0.15s}
+.er-snav-btn:hover{color:var(--text);border-color:var(--border2)}
+.er-snav-btn.active{background:var(--red-dim);color:var(--red);border-color:rgba(255,61,90,0.3)}
+
+/* ER MAIN DASHBOARD layout */
+.er-main-grid{display:grid;grid-template-columns:260px 1fr;flex:1;overflow:hidden}
+.er-sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:16px;overflow-y:auto}
+.er-sidebar-title{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-weight:700}
+.er-legend-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.er-legend-item{display:flex;align-items:center;justify-content:space-between}
+.er-legend-left{display:flex;align-items:center;gap:8px}
+.er-legend-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.er-legend-icon.r{background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.35)}
+.er-legend-icon.o{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.35)}
+.er-legend-icon.g{background:rgba(34,200,122,0.1);border:1px solid rgba(34,200,122,0.35)}
+.er-legend-icon.b{background:rgba(74,158,255,0.1);border:1px solid rgba(74,158,255,0.35)}
+.er-legend-name{font-size:13px;font-weight:600}
+.er-legend-name.r{color:var(--red)}.er-legend-name.o{color:var(--accent)}.er-legend-name.g{color:var(--green)}.er-legend-name.b{color:var(--blue)}
+.er-legend-sub{font-size:10px;color:var(--text3)}
+.er-legend-count{font-family:'Orbitron',monospace;font-size:18px;font-weight:700}
+.er-legend-count.r{color:var(--red)}.er-legend-count.o{color:var(--accent)}.er-legend-count.g{color:var(--green)}.er-legend-count.b{color:var(--blue)}
+
+/* 911 Banner */
+.er-banner{background:linear-gradient(90deg,rgba(183,28,28,0.15),var(--bg));border:1px solid rgba(229,57,53,0.3);border-radius:8px;margin:12px 16px;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+.er-banner-left{display:flex;align-items:center;gap:16px}
+.er-banner-icon{width:56px;height:56px;border-radius:50%;background:#b71c1c;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid var(--red);animation:pulse 1.5s infinite}
+.er-banner-sub{font-size:11px;color:var(--red);letter-spacing:1px;font-weight:600}
+.er-banner-title{font-size:24px;font-weight:700;font-family:'Orbitron',monospace;letter-spacing:1px}
+.er-banner-desc{font-size:12px;color:var(--text3)}
+.er-call-btn{background:var(--red);color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:14px;font-family:'Orbitron',monospace;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px;letter-spacing:0.5px;box-shadow:0 0 20px rgba(229,57,53,0.3);transition:all .2s}
+.er-call-btn:hover{background:#b71c1c;transform:scale(1.02)}
+
+/* Services row */
+.er-services{display:flex;gap:0;border-top:1px solid var(--border);margin:0 16px}
+.er-svc-item{flex:1;display:flex;align-items:center;gap:10px;padding:10px 14px;border-right:1px solid var(--border);cursor:pointer;transition:background .2s}
+.er-svc-item:last-child{border-right:none}
+.er-svc-item:hover{background:var(--bg3)}
+.er-svc-icon{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+.er-svc-icon.r{background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.3)}
+.er-svc-icon.b{background:rgba(74,158,255,0.1);border:1px solid rgba(74,158,255,0.3)}
+.er-svc-icon.o{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3)}
+.er-svc-icon.g{background:rgba(34,200,122,0.1);border:1px solid rgba(34,200,122,0.3)}
+.er-svc-name{font-size:12px;font-weight:600}
+.er-svc-call{font-size:10px;color:var(--accent);cursor:pointer}
+.er-svc-call:hover{text-decoration:underline}
+
+/* ER bottom stats */
+.er-bottom-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 16px;flex-shrink:0}
+.er-stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:12px}
+.er-stat-card-title{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.er-perf-metrics{display:flex;gap:14px}
+.er-perf-item{}
+.er-perf-label{font-size:9px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase}
+.er-perf-val{font-family:'Orbitron',monospace;font-size:19px;font-weight:700}
+.er-perf-val.r{color:var(--red)}.er-perf-val.g{color:var(--green)}
+.er-perf-sub{font-size:10px;color:var(--text3)}
+.er-chart-area{height:58px;background:var(--bg3);border-radius:4px;overflow:hidden;position:relative}
+.er-res-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.er-res-item{background:var(--bg3);border-radius:4px;padding:8px;text-align:center;cursor:pointer;transition:all 0.15s;border:1px solid var(--border)}
+.er-res-item:hover{border-color:var(--teal);background:var(--bg4)}
+.er-res-icon{font-size:18px;margin-bottom:2px}
+.er-res-name{font-size:9px;color:var(--text3)}
+.er-res-count{font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:var(--green)}
+.er-agents-donut{display:flex;align-items:center;gap:10px}
+.er-donut-wrap{position:relative;width:66px;height:66px}
+.er-donut-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.er-donut-num{font-family:'Orbitron',monospace;font-size:15px;font-weight:700}
+.er-donut-label{font-size:8px;color:var(--text3)}
+.er-agent-legend{display:flex;flex-direction:column;gap:4px}
+.er-agent-leg{display:flex;align-items:center;gap:6px;font-size:11px}
+.er-ag-dot{width:7px;height:7px;border-radius:50%}
+
+/* ER ACTIVE CALL page */
+#erm-page-call{display:none}
+#erm-page-call.active{display:flex}
+.er-call-grid{display:grid;grid-template-columns:520px 1fr;flex:1;overflow:hidden}
+.er-call-portal{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.er-portal-header{padding:14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.er-portal-title{font-size:9px;color:var(--text3);letter-spacing:2px;font-family:'Orbitron',monospace;text-transform:uppercase;margin-bottom:12px;font-weight:700}
+.er-caller-info{display:flex;align-items:center;gap:12px}
+.er-caller-av-wrap{position:relative}
+.er-caller-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#b71c1c,var(--red));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;border:2px solid var(--red)}
+.er-live-badge{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:8px;padding:1px 6px;border-radius:10px;font-weight:700;letter-spacing:0.5px;white-space:nowrap}
+.er-caller-name{font-size:19px;font-weight:700}
+.er-caller-phone{font-size:12px;color:var(--text2)}
+.er-caller-badges{display:flex;gap:6px;margin-top:4px}
+.er-badge-crit{padding:3px 10px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:0.5px;background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.3);color:var(--red);text-transform:uppercase}
+.er-dur{text-align:right}
+.er-dur-val{font-family:var(--font-mono);font-size:26px;color:var(--red)}
+.er-dur-label{font-size:10px;color:var(--text3)}
+.er-tr-area{flex:1;overflow-y:auto;padding:14px}
+.er-tr-area::-webkit-scrollbar{width:3px}
+.er-tr-area::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.er-tr-label{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;font-weight:700}
+.er-tr-row{display:flex;gap:8px;margin-bottom:10px;font-size:12px}
+.er-tr-time{font-family:var(--font-mono);font-size:10px;color:var(--text3);min-width:52px;margin-top:2px}
+.er-tr-speaker{font-weight:700;min-width:64px}
+.er-tr-speaker.ai{color:var(--blue)}
+.er-tr-speaker.caller{color:var(--red)}
+.er-tr-text{flex:1;line-height:1.5}
+.er-tr-text.caller-txt{color:#ff8a80}
+.er-stress-panel{padding:14px;border-top:1px solid var(--border);flex-shrink:0}
+.er-stress-title{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;font-weight:700}
+.er-stress-pct{font-family:'Orbitron',monospace;font-size:26px;font-weight:700;color:var(--red)}
+.er-stress-label-text{font-size:12px;color:var(--red);margin-bottom:7px}
+.er-stress-bar-bg{background:rgba(255,61,90,0.1);height:7px;border-radius:4px;overflow:hidden;margin-bottom:10px}
+.er-stress-bar-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--amber),var(--red));border-radius:4px;transition:width 0.5s}
+.er-emo-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.er-emo-tag{padding:3px 8px;border-radius:3px;font-size:10px;border:1px solid rgba(255,107,53,0.3);color:var(--accent);background:rgba(255,107,53,0.07)}
+.er-portal-actions{padding:12px 14px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0}
+.er-btn-end{flex:1;background:var(--red);color:#fff;border:none;padding:11px;border-radius:6px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.er-btn-end:hover{background:#c02040}
+.er-btn-transfer{flex:1;background:rgba(74,158,255,0.1);border:1px solid rgba(74,158,255,0.3);color:var(--blue);padding:11px;border-radius:6px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.er-btn-transfer:hover{background:rgba(74,158,255,0.2)}
+.er-btn-escalate{flex:1;background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:var(--accent);padding:11px;border-radius:6px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.er-btn-escalate:hover{background:rgba(255,107,53,0.2)}
+
+/* ER Map right */
+.er-map-right{background:#08111e;position:relative;display:flex;flex-direction:column;overflow:hidden}
+.er-map-right-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);flex-shrink:0}
+.er-mh-title{font-size:9px;color:var(--text3);letter-spacing:2px;font-family:'Orbitron',monospace;text-transform:uppercase;font-weight:700}
+.er-mh-filters{display:flex;gap:6px}
+.er-mf-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:4px 10px;border-radius:3px;font-size:10px;font-family:var(--font);cursor:pointer;transition:all 0.15s}
+.er-mf-btn:hover{border-color:var(--red);color:var(--text)}
+.er-mf-btn.active{background:var(--red-dim);color:var(--red);border-color:rgba(255,61,90,0.3)}
+.er-map-body{flex:1;position:relative;overflow:hidden}
+.er-incident-popup{position:absolute;top:16px;left:16px;background:var(--bg2);border:1px solid rgba(255,61,90,0.4);border-radius:8px;padding:12px;width:200px}
+.er-popup-type{font-size:10px;color:var(--red);font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.er-popup-priority{font-size:11px;color:var(--accent);font-weight:600}
+.er-popup-time{font-size:10px;color:var(--text3)}
+.er-popup-accuracy{font-size:10px;color:var(--green)}
+
+/* ER ADMIN page */
+#erm-page-admin{display:none}
+#erm-page-admin.active{display:flex}
+.er-admin-layout{display:flex;flex:1;overflow:hidden}
+.er-admin-sidebar{width:80px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:4px}
+.er-nav-item{width:56px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0;border-radius:7px;cursor:pointer;transition:all .2s;color:var(--text3)}
+.er-nav-item:hover,.er-nav-item.active{background:var(--bg3);color:var(--text)}
+.er-nav-item .er-nav-icon{font-size:18px}
+.er-nav-item .er-nav-label{font-size:9px;letter-spacing:0.5px}
+.er-admin-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.er-admin-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:50px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0}
+.er-admin-title{font-family:'Orbitron',monospace;font-size:14px;font-weight:700}
+.er-admin-content{flex:1;display:grid;grid-template-columns:300px 1fr;overflow:hidden}
+.er-call-list-panel{background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.er-clp-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.er-clp-tabs{display:flex;gap:0}
+.er-clp-tab{padding:5px 14px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent}
+.er-clp-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.er-call-items{flex:1;overflow-y:auto}
+.er-call-item{padding:11px 14px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:background .2s}
+.er-call-item:hover{background:var(--bg3)}
+.er-call-item.selected{background:rgba(255,61,90,0.05);border-left:3px solid var(--red)}
+.er-ci-left{display:flex;align-items:center;gap:10px}
+.er-ci-dot{width:9px;height:9px;border-radius:50%}
+.er-ci-dot.r{background:var(--red)}.er-ci-dot.o{background:var(--accent)}.er-ci-dot.g{background:var(--green)}
+.er-ci-name{font-size:13px;font-weight:600}
+.er-ci-priority{font-size:10px}
+.er-ci-priority.r{color:var(--red)}.er-ci-priority.o{color:var(--accent)}.er-ci-priority.g{color:var(--green)}
+.er-ci-time{font-family:var(--font-mono);font-size:12px;color:var(--text3)}
+.er-view-all-calls{padding:10px 14px;text-align:center;font-size:11px;color:var(--blue);cursor:pointer;border-top:1px solid var(--border)}
+.er-view-all-calls:hover{color:var(--accent)}
+.er-admin-right{display:flex;flex-direction:column;overflow:hidden}
+.er-call-detail-area{flex:1;display:grid;grid-template-columns:1fr 240px;overflow:hidden}
+.er-call-detail-main{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.er-cdm-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.er-cdm-caller{display:flex;align-items:center;gap:12px}
+.er-cdm-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#b71c1c,var(--red));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700}
+.er-cdm-name{font-size:17px;font-weight:700}
+.er-cdm-phone{font-size:11px;color:var(--text2)}
+.er-cdm-priority{padding:3px 10px;border-radius:3px;background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.3);color:var(--red);font-size:9px;font-weight:700;text-transform:uppercase;margin-left:10px}
+.er-cdm-duration{font-family:var(--font-mono);font-size:20px;color:var(--red);text-align:right}
+.er-cdm-live{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--green);margin-top:2px}
+.er-transcript-body{flex:1;overflow-y:auto;padding:14px}
+.er-transcript-body::-webkit-scrollbar{width:3px}
+.er-transcript-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.er-stress-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 18px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);flex-shrink:0}
+.er-ss-label{font-size:9px;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:4px}
+.er-ss-val{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:var(--red)}
+.er-ss-sub{font-size:11px;color:var(--red)}
+.er-conf-side{display:flex;align-items:center;gap:10px}
+.er-conf-val{font-family:'Orbitron',monospace;font-size:22px;font-weight:700;color:var(--green)}
+.er-conf-sub{font-size:11px;color:var(--green)}
+.er-action-btns{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0}
+.er-act-take{flex:1;background:var(--red);color:#fff;border:none;padding:10px;border-radius:6px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.er-act-take:hover{background:#c02040}
+.er-act-ai{flex:1;background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:10px;border-radius:6px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.er-act-ai:hover{background:var(--surface)}
+.er-act-back{flex:1;background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:10px;border-radius:6px;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.er-act-back:hover{color:var(--text);border-color:var(--border2)}
+.er-insights-panel{background:var(--bg2);padding:14px;overflow-y:auto}
+.er-ins-title{font-family:'Orbitron',monospace;font-size:10px;letter-spacing:1px;color:var(--text3);margin-bottom:14px;font-weight:700;text-transform:uppercase}
+.er-ins-section{margin-bottom:14px}
+.er-ins-sec-title{font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;font-weight:700}
+.er-em-cat{display:flex;align-items:center;gap:10px}
+.er-em-cat-icon{width:30px;height:30px;border-radius:50%;background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.3);display:flex;align-items:center;justify-content:center;font-size:15px}
+.er-em-cat-name{font-size:13px;font-weight:700}
+.er-em-cat-sub{font-size:11px;color:var(--red)}
+.er-si-tags{display:flex;flex-wrap:wrap;gap:5px}
+.er-si-tag{padding:3px 8px;border-radius:3px;font-size:10px}
+.er-si-tag.r{background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.3);color:var(--red)}
+.er-si-tag.o{background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:var(--accent)}
+.er-location-info{font-size:11px;color:var(--text);line-height:1.5}
+.er-loc-accuracy{font-size:10px;color:var(--green);margin-top:2px}
+.er-admin-map-row{height:200px;border-top:1px solid var(--border);flex-shrink:0;display:flex;flex-direction:column}
+.er-amr-header{padding:8px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.er-amr-title{font-size:9px;color:var(--text3);letter-spacing:1px;font-family:'Orbitron',monospace;text-transform:uppercase;font-weight:700}
+.er-amr-legend{display:flex;gap:12px}
+.er-amrl-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text2)}
+.er-amrl-dot{width:7px;height:7px;border-radius:50%}
+.er-amr-map{flex:1;position:relative;overflow:hidden;background:#08111e}
+.er-map-hint{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--text3);background:rgba(0,0,0,0.6);padding:3px 10px;border-radius:10px;white-space:nowrap}
+
+/* ── ADMIN PER-PERSON CONVERSATION ── */
+.er-conv-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.er-conv-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.er-conv-msgs::-webkit-scrollbar{width:3px}
+.er-conv-msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.er-conv-msg{display:flex;flex-direction:column;gap:2px}
+.er-conv-msg-meta{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:6px}
+.er-conv-msg-meta .lbl-ai{color:var(--accent);font-weight:600}
+.er-conv-msg-meta .lbl-caller{color:var(--blue);font-weight:600}
+.er-conv-msg-meta .lbl-admin{color:var(--purple);font-weight:600}
+.er-conv-bubble{padding:8px 11px;border-radius:8px;font-size:12px;line-height:1.55}
+.er-conv-bubble.ai{background:rgba(255,95,46,0.08);border-left:2px solid var(--accent)}
+.er-conv-bubble.caller{background:var(--blue-dim);border-left:2px solid var(--blue)}
+.er-conv-bubble.admin{background:rgba(168,85,247,0.08);border-left:2px solid var(--purple)}
+.er-conv-input-area{padding:10px 14px;border-top:1px solid var(--border);background:var(--bg3);flex-shrink:0}
+.er-conv-input-row{display:flex;gap:8px}
+.er-conv-input{flex:1;padding:8px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:var(--font);font-size:12px;outline:none;transition:border-color 0.15s}
+.er-conv-input:focus{border-color:var(--purple)}
+.er-conv-input::placeholder{color:var(--text3)}
+.er-conv-send{padding:0 14px;background:var(--purple);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all 0.15s;white-space:nowrap}
+.er-conv-send:hover{background:#9333ea}
+.er-conv-hint{font-size:10px;color:var(--text3);margin-top:5px}
+
+/* ══ SHARED MODALS ══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:24px;width:420px;max-width:92vw}
+.modal-title{font-family:var(--font-head);font-size:17px;font-weight:700;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.55}
+.modal-field{margin-bottom:14px}
+.modal-field label{display:block;font-size:11px;color:var(--text2);margin-bottom:5px}
+.modal-field select,.modal-field textarea,.modal-field input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text);padding:8px 10px;font-family:var(--font);font-size:12px;outline:none}
+.modal-field textarea{height:76px;resize:none}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.mbtn{padding:8px 20px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:none;font-family:var(--font);transition:all 0.15s}
+.mbtn-cancel{background:var(--bg3);color:var(--text2);border:1px solid var(--border2)}
+.mbtn-cancel:hover{background:var(--bg4);color:var(--text)}
+.mbtn-confirm{background:var(--red);color:#fff}
+.mbtn-confirm:hover{background:#cc2040}
+.mbtn-success{background:var(--teal);color:#000}
+.mbtn-success:hover{background:#18b888}
+
+.summary-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;display:none;align-items:center;justify-content:center}
+.summary-overlay.open{display:flex}
+.summary-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:24px;width:520px;max-width:92vw;max-height:82vh;overflow-y:auto}
+.sum-section{margin-bottom:14px}
+.sum-section-title{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:5px;font-weight:700}
+.sum-content{font-size:12px;color:var(--text);line-height:1.6;background:var(--bg3);padding:10px 12px;border-radius:6px;border:1px solid var(--border)}
+
+/* Resource Hub modal - wider */
+.resource-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:24px;width:500px;max-width:92vw;max-height:82vh;overflow-y:auto}
+.res-hub-item{padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:6px;cursor:pointer;margin-bottom:8px;transition:all 0.15s}
+.res-hub-item:hover{border-color:var(--teal);background:var(--bg4)}
+.res-hub-item-title{font-size:12px;font-weight:600;margin-bottom:3px}
+.res-hub-item-sub{font-size:11px;color:var(--text3)}
+
+/* Broadcast modal */
+.broadcast-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:24px;width:440px;max-width:92vw}
+
+/* Toast */
+.toast{position:fixed;bottom:20px;right:20px;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;z-index:300;transform:translateY(60px);opacity:0;transition:all 0.3s;pointer-events:none;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:var(--teal);color:#000}
+.toast.warning{background:var(--amber);color:#000}
+.toast.error{background:var(--red);color:#fff}
+.toast.info{background:var(--blue);color:#fff}
+
+/* Notification badge */
+.notif-badge{position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;font-size:8px;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ LANDING ══════════════════════ -->
+<div id="landing" class="screen active">
+  <div class="land-bg"><div class="land-grid"></div><div class="land-glow"></div></div>
+  <div class="land-content">
+    <div class="land-logo">
+      <div class="land-logo-icon">S</div>
+      <div>
+        <div class="land-logo-text">SAMPARK <span>AI</span></div>
+        <div class="land-subtitle">Karnataka 1092 Helpline · Integrated Intelligence Platform</div>
+      </div>
+    </div>
+    <div class="land-tagline"><strong>Understand. Verify. Respond.</strong><br>AI-powered voice assistance + Emergency response for citizen helplines</div>
+    <p class="land-desc">SAMPARK AI is an end-to-end platform — from AI-assisted citizen call handling with multilingual dialect understanding, to a full emergency response control center with live incident tracking and agent coordination.</p>
+    <div class="land-features">
+      <div class="land-feat"><span>🎙</span>Voice-to-Voice NLU</div>
+      <div class="land-feat"><span>🧠</span>Dialect-Aware AI</div>
+      <div class="land-feat"><span>💬</span>Verification Loop</div>
+      <div class="land-feat"><span>😥</span>Sentiment Analysis</div>
+      <div class="land-feat"><span>🚨</span>Emergency Response</div>
+      <div class="land-feat"><span>🗺</span>Live Incident Map</div>
+      <div class="land-feat"><span>🔁</span>Human Escalation</div>
+      <div class="land-feat"><span>📊</span>Control Center</div>
+    </div>
+    <button class="land-cta" onclick="goToApp()">Launch SAMPARK AI →</button>
+    <div class="land-langs">
+      <div style="margin-bottom:6px">Supported Languages</div>
+      <div class="lang-chips">
+        <div class="lang-chip">ಕನ್ನಡ Kannada</div>
+        <div class="lang-chip">हिन्दी Hindi</div>
+        <div class="lang-chip">English</div>
+        <div class="lang-chip">+ Dialects</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ MAIN APP ══════════════════════ -->
+<div id="app" class="screen">
+
+  <!-- MODULE TABS -->
+  <div class="module-tabs">
+    <span class="module-tabs-label">Module:</span>
+    <button class="mtab active" onclick="switchModule('sampark')" id="tab-sampark">
+      <span>🎙</span> SAMPARK AI · 1092 Helpline
+    </button>
+    <button class="mtab" onclick="switchModule('emergency')" id="tab-emergency">
+      <span>🚨</span> Emergency Response Center
+    </button>
+  </div>
+
+  <!-- ══ MODULE 1: SAMPARK AI ══ -->
+  <div id="module-sampark" class="module active">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="tb-logo">
+        <div class="tb-icon">S</div>
+        <div><div class="tb-name">SAMPARK <span>AI</span></div></div>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-stats">
+        <div>
+          <div class="tb-stat-v" style="color:var(--red)" id="stat-high">8</div>
+          <div class="tb-stat-l">High Alerts</div>
+        </div>
+        <div>
+          <div class="tb-stat-v" style="color:var(--amber)" id="stat-active">14</div>
+          <div class="tb-stat-l">Active Calls</div>
+        </div>
+        <div>
+          <div class="tb-stat-v" style="color:var(--blue)" id="stat-unresolved">23</div>
+          <div class="tb-stat-l">Unresolved</div>
+        </div>
+      </div>
+      <div class="tb-right">
+        <div class="sys-pill"><div class="pulse"></div>System: Active / Stable</div>
+        <div class="tb-clock" id="clock">--:--:--</div>
+        <div class="tb-agent">
+          <div class="av">PT</div>
+          <div>
+            <div style="font-size:12px;font-weight:500">Agent Priya T.</div>
+            <div style="font-size:10px;color:var(--text3)">ID 22445 · 09:00–17:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- QUICK ACTIONS -->
+    <div class="qbar">
+      <span class="qbar-label">Quick Actions</span>
+      <button class="qbtn" id="qbtn-mute" onclick="toggleMuteAI()">🎤 Mute AI</button>
+      <button class="qbtn" id="qbtn-rec" onclick="toggleRecording()">⏺ Record Call</button>
+      <button class="qbtn" onclick="openSummary()">📋 Summary</button>
+      <button class="qbtn" onclick="openModal('resource-modal')">📖 Resource Hub</button>
+      <button class="qbtn" onclick="openModal('broadcast-modal')">📡 Broadcast</button>
+      <button class="qbtn" style="color:var(--amber);border-color:rgba(255,179,64,0.2)" onclick="openModal('escalate-modal')">⚠ Escalate</button>
+      <div class="alert-strip">⚡ Weather Warning · Dakshina Kannada &nbsp;<span style="text-decoration:underline;cursor:pointer" onclick="showToast('Coastal distress advisory issued. All coastal district agents notified.','warning')">View</span></div>
+    </div>
+    <!-- COLUMNS -->
+    <div class="cols">
+      <!-- LEFT PANEL -->
+      <div class="left-panel">
+        <div class="phead">
+          <span class="phead-title">AI Call Portal — 1092</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <div class="lang-badge" id="lang-badge">ಕನ್ನಡ · KAN</div>
+            <div style="font-size:10px;color:var(--text3)" id="dialect-info">Coastal Dialect</div>
+          </div>
+        </div>
+        <div class="caller-card">
+          <div class="caller-row">
+            <div class="caller-av"><div class="live-ring"></div><span id="caller-initials">RK</span></div>
+            <div class="caller-info">
+              <h3 id="caller-name">Ramesh Kumar</h3>
+              <p id="caller-phone">+91 9845 012 345 · Mangaluru</p>
+            </div>
+            <div class="caller-badges">
+              <div class="badge badge-crit" id="priority-badge">High Priority</div>
+              <div class="badge badge-live"><div class="blink-dot"></div>LIVE</div>
+            </div>
+          </div>
+          <div class="call-metas">
+            <div><div class="cmeta-label">Duration</div><div class="cmeta-val" id="duration">00:00</div></div>
+            <div><div class="cmeta-label">Language</div><div class="cmeta-val" style="font-size:12px;color:var(--teal)" id="lang-display">Kannada (Coastal)</div></div>
+            <div><div class="cmeta-label">AI Mode</div><div class="cmeta-val" style="font-size:12px;color:var(--accent)" id="ai-mode">Listening</div></div>
+          </div>
+        </div>
+        <div class="tsec">
+          <div class="tsec-hdr">Live Transcript <div class="t-live"><div class="blink-dot" style="background:var(--teal)"></div>Active</div></div>
+        </div>
+        <div class="transcript" id="transcript"></div>
+        <div class="verif-box" id="verif-box" style="display:none">
+          <div class="verif-title">✓ Understanding Verification</div>
+          <div class="verif-summary" id="verif-summary">—</div>
+          <div class="verif-tags" id="verif-tags"></div>
+          <div class="verif-btns">
+            <button class="vbtn vbtn-yes" onclick="confirmUnderstanding()">✓ Confirmed — Proceed</button>
+            <button class="vbtn vbtn-no" onclick="retryUnderstanding()">✗ Incorrect — Retry</button>
+          </div>
+        </div>
+        <div class="waveform-wrap"><canvas id="waveCanvas" height="36"></canvas></div>
+        <div class="analytics">
+          <div class="anal-block">
+            <div class="anal-label">Stress Analysis</div>
+            <div class="stress-num" id="stress-val" style="color:var(--amber)">—</div>
+            <div class="stress-sub" id="stress-label">Awaiting input</div>
+            <div class="sbar-wrap"><div class="sbar" id="stress-bar" style="width:0%"></div></div>
+          </div>
+          <div class="anal-block">
+            <div class="anal-label">Emotional State</div>
+            <div class="emotion-tags" id="emotion-tags"><span class="etag amber" style="color:var(--text3)">Awaiting…</span></div>
+          </div>
+        </div>
+        <div class="conf-row">
+          <span class="conf-label">AI Confidence</span>
+          <div class="cbar-wrap"><div class="cbar" id="conf-bar" style="width:0%"></div></div>
+          <span class="conf-val" id="conf-val">—</span>
+          <span class="stress-flag" id="stress-flag" style="display:none">● High Stress</span>
+        </div>
+        <div class="call-actions">
+          <button class="cabtn cabtn-end" onclick="endCall()">📞 End Call</button>
+          <button class="cabtn cabtn-transfer" onclick="transferCall()">⇄ Transfer</button>
+          <button class="cabtn cabtn-escalate" onclick="openModal('escalate-modal')">⚠ Escalate</button>
+        </div>
+        <div class="input-area">
+          <div class="input-row">
+            <select class="input-lang-sel" id="input-lang" onchange="switchLanguage()">
+              <option value="kannada">ಕನ್ನಡ</option>
+              <option value="hindi">हिन्दी</option>
+              <option value="english" selected>English</option>
+            </select>
+            <input type="text" class="input-field" id="input-field" placeholder="Type citizen's message or pick a sample…" onkeydown="if(event.key==='Enter')sendMessage()">
+            <button class="send-btn" id="send-btn" onclick="sendMessage()">Send ▶</button>
+          </div>
+          <div class="input-hint">
+            Samples:
+            <span class="hint-chip" onclick="loadSample(0)">Ration card</span>
+            <span class="hint-chip" onclick="loadSample(1)">Pension delay</span>
+            <span class="hint-chip" onclick="loadSample(2)">Water supply</span>
+            <span class="hint-chip" onclick="loadSample(3)">Medical urgent</span>
+            <span class="hint-chip" onclick="loadSample(4)">Aadhaar ID</span>
+          </div>
+        </div>
+      </div><!-- /left-panel -->
+
+      <!-- RIGHT -->
+      <div class="right-panel">
+        <div class="right-top">
+          <div class="map-section">
+            <div class="map-head">
+              <span class="phead-title">Live Incident Map — Karnataka</span>
+              <div class="map-filters">
+                <button class="flt-btn active" onclick="filterMap(this,'all')">All</button>
+                <button class="flt-btn" onclick="filterMap(this,'food')">Food</button>
+                <button class="flt-btn" onclick="filterMap(this,'medical')">Medical</button>
+                <button class="flt-btn" onclick="filterMap(this,'infra')">Infra</button>
+                <button class="flt-btn" onclick="filterMap(this,'admin')">Admin</button>
+              </div>
+            </div>
+            <div class="map-wrap" id="map-wrap"><canvas id="mapCanvas"></canvas></div>
+          </div>
+          <div class="side-metrics">
+            <div class="sm-head">Performance</div>
+            <div class="sm-cards">
+              <div class="sm-card"><div class="sm-card-label">Avg Response Time</div><div class="sm-card-val" style="color:var(--teal)">02:41</div><div class="sm-card-change up">↓ 18% vs last shift</div></div>
+              <div class="sm-card"><div class="sm-card-label">AI Confidence</div><div class="sm-card-val" style="color:var(--amber)">84%</div><div class="sm-card-change up">↑ 12% vs last shift</div></div>
+              <div class="sm-card"><div class="sm-card-label">Resolution Rate</div><div class="sm-card-val" style="color:var(--teal)">91%</div><div class="sm-card-change up">↑ 7% vs last shift</div></div>
+              <div class="sm-card"><div class="sm-card-label">Escalations Today</div><div class="sm-card-val" style="color:var(--red)" id="sm-escalations">3</div><div class="sm-card-change dn">↑ 1 vs yesterday</div></div>
+              <div class="sm-card"><div class="sm-card-label">Calls (Shift)</div><div class="sm-card-val" style="color:var(--blue)" id="sm-calls">47</div><div class="sm-card-change neutral">+5 vs avg</div></div>
+            </div>
+            <div style="padding:8px 10px;border-top:1px solid var(--border)">
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;font-weight:700">Active Agents (24)</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div class="abar-row"><div class="abar-label" style="color:var(--red)">On Call</div><div class="abar-wrap"><div class="abar-fill" style="width:50%;background:var(--red)"></div></div><div style="font-size:11px;font-weight:600;color:var(--red)">12</div></div>
+                <div class="abar-row"><div class="abar-label" style="color:var(--teal)">Available</div><div class="abar-wrap"><div class="abar-fill" style="width:33%;background:var(--teal)"></div></div><div style="font-size:11px;font-weight:600;color:var(--teal)">8</div></div>
+                <div class="abar-row"><div class="abar-label" style="color:var(--amber)">Busy</div><div class="abar-wrap"><div class="abar-fill" style="width:17%;background:var(--amber)"></div></div><div style="font-size:11px;font-weight:600;color:var(--amber)">4</div></div>
+              </div>
+            </div>
+            <div style="padding:8px 10px;border-top:1px solid var(--border)">
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;font-weight:700">Stress Trend</div>
+              <canvas id="trendChart" width="196" height="54"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-metrics">
+          <div class="bm-card"><div class="bm-label">Calls This Hour</div><div class="bm-val" style="color:var(--blue)">67</div><div class="bm-change up">↑ 12% vs last hour</div></div>
+          <div class="bm-card"><div class="bm-label">Avg AI Confidence</div><div class="bm-val" style="color:var(--amber)">84%</div><div class="bm-change up">↑ Learning active</div></div>
+          <div class="bm-card"><div class="bm-label">Dialect Matches</div><div class="bm-val" style="color:var(--teal)">92%</div><div class="bm-change up">↑ 3% vs last week</div></div>
+          <div class="bm-card"><div class="bm-label">Verifications OK</div><div class="bm-val" style="color:var(--green)">89%</div><div class="bm-change up">↑ First-attempt rate</div></div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /module-sampark -->
+
+  <!-- ══ MODULE 2: EMERGENCY RESPONSE ══ -->
+  <div id="module-emergency" class="module">
+    <!-- ER Sub-nav -->
+    <div class="er-subnav">
+      <span class="er-subnav-label">View:</span>
+      <button class="er-snav-btn active" onclick="showERPage('dashboard',this)">📡 Main Dashboard</button>
+      <button class="er-snav-btn" onclick="showERPage('call',this)">📞 Active Complaint</button>
+      <button class="er-snav-btn" onclick="showERPage('admin',this)">🛡 Admin Control Center</button>
+    </div>
+
+    <div class="erm-pages">
+
+      <!-- ER PAGE 1: MAIN DASHBOARD -->
+      <div id="erm-page-dashboard" class="erm-page active" style="overflow-y:auto">
+        <div class="er-topbar">
+          <div class="er-logo">
+            <div class="er-logo-icon">🛡</div>
+            <div><div class="er-logo-text">SAMPARK EMERGENCY NETWORK</div><div class="er-logo-sub">AI POWERED · REAL TIME · ALWAYS ON</div></div>
+          </div>
+          <div class="er-stats">
+            <div><div class="er-stat-num" style="color:var(--red)">8</div><div class="er-stat-label">HIGH ALERTS</div></div>
+            <div><div class="er-stat-num" style="color:var(--accent)">14</div><div class="er-stat-label">ACTIVE INCIDENTS</div></div>
+            <div><div class="er-stat-num" style="color:var(--green)">23</div><div class="er-stat-label">RESOLVED</div></div>
+          </div>
+          <div class="tb-right">
+            <div class="sys-pill"><div class="pulse"></div>OPERATIONAL</div>
+            <div class="tb-clock" id="er-clock">--:--:--</div>
+            <div class="tb-agent"><div class="av" style="background:linear-gradient(135deg,#1565c0,#42a5f5)">JT</div><div><div style="font-size:12px;font-weight:500">Jessica Taylor</div><div style="font-size:10px;color:var(--text3)">Shift: 07:00–15:00</div></div></div>
+          </div>
+        </div>
+        <div class="er-quickbar">
+          <div class="er-quickbar-left">
+            <span class="qbar-label" style="font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-right:6px">Quick Actions</span>
+            <button class="er-qa-btn" id="er-mute-btn" onclick="erToggleMute()">🎤 Mute AI</button>
+            <button class="er-qa-btn" id="er-rec-btn" onclick="erToggleRecord()"><span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block"></span> Record Call</button>
+            <button class="er-qa-btn" onclick="openModal('broadcast-modal')">📡 Emergency Broadcast</button>
+            <button class="er-qa-btn" onclick="openModal('resource-modal')">📖 Resource Hub</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="er-weather">☁ Severe Weather Warning in Effect</div>
+            <button class="er-view-btn" onclick="showToast('Cyclonic storm warning — Karnataka coast. Evacuation advisory issued.','warning')">View Details</button>
+          </div>
+        </div>
+
+        <div class="er-main-grid" style="height:calc(100vh - 320px);min-height:380px">
+          <div class="er-sidebar">
+            <div class="er-sidebar-title"><span style="width:7px;height:7px;border-radius:50%;background:var(--red);animation:blink 1s infinite;display:inline-block"></span> LIVE INCIDENT MAP</div>
+            <div class="er-legend-items">
+              <div class="er-legend-item">
+                <div class="er-legend-left"><div class="er-legend-icon r">🔴</div><div><div class="er-legend-name r">High Alert</div><div class="er-legend-sub">Critical Priority</div></div></div>
+                <div class="er-legend-count r">8</div>
+              </div>
+              <div class="er-legend-item">
+                <div class="er-legend-left"><div class="er-legend-icon o">🟠</div><div><div class="er-legend-name o">Medium Alert</div><div class="er-legend-sub">Moderate Priority</div></div></div>
+                <div class="er-legend-count o">14</div>
+              </div>
+              <div class="er-legend-item">
+                <div class="er-legend-left"><div class="er-legend-icon g">🟢</div><div><div class="er-legend-name g">Low Alert</div><div class="er-legend-sub">Low Priority</div></div></div>
+                <div class="er-legend-count g">23</div>
+              </div>
+              <div class="er-legend-item">
+                <div class="er-legend-left"><div class="er-legend-icon b">🔵</div><div><div class="er-legend-name b">Resolved</div><div class="er-legend-sub">Situation Resolved</div></div></div>
+                <div class="er-legend-count b">31</div>
+              </div>
+            </div>
+            <div style="font-size:10px;color:var(--text3);margin-top:10px;display:flex;align-items:center;gap:6px" id="er-last-updated">⏱ Last Updated: --:--:--</div>
+          </div>
+          <div class="map-wrap" id="er-map-wrap" style="min-height:340px"><canvas id="erMapCanvas"></canvas></div>
+        </div>
+
+        <!-- 911 Banner -->
+        <div class="er-banner">
+          <div class="er-banner-left">
+            <div class="er-banner-icon"><div style="font-size:20px">📞</div><div style="font-family:'Orbitron',monospace;font-size:10px;font-weight:700">1092</div></div>
+            <div>
+              <div class="er-banner-sub">CITIZEN EMERGENCY HELPLINE</div>
+              <div class="er-banner-title">SAMPARK 1092</div>
+              <div class="er-banner-desc">AI-assisted emergency coordination · Available 24/7</div>
+            </div>
+          </div>
+          <button class="er-call-btn" onclick="showToast('Initiating emergency call simulation…','info');setTimeout(()=>showERPage(\'call\',null),800)">📞 SIMULATE EMERGENCY CALL</button>
+        </div>
+
+        <!-- Services -->
+        <div class="er-services">
+          <div class="er-svc-item" onclick="showToast('Connecting to Police Control Room — 100','info')"><div class="er-svc-icon r">🚓</div><div><div class="er-svc-name">Police</div><div class="er-svc-call">Call 100</div></div></div>
+          <div class="er-svc-item" onclick="showToast('Connecting to Fire Department — 101','info')"><div class="er-svc-icon o">🚒</div><div><div class="er-svc-name">Fire Dept</div><div class="er-svc-call">Call 101</div></div></div>
+          <div class="er-svc-item" onclick="showToast('Connecting to Ambulance Services — 108','info')"><div class="er-svc-icon r">🚑</div><div><div class="er-svc-name">Ambulance</div><div class="er-svc-call">Call 108</div></div></div>
+          <div class="er-svc-item" onclick="showToast('Connecting to Disaster Management — SDMA','info')"><div class="er-svc-icon b">⛑</div><div><div class="er-svc-name">Disaster Mgmt</div><div class="er-svc-call">SDMA Control</div></div></div>
+          <div class="er-svc-item" onclick="showToast('Connecting to Medical Helpline — 104','info')"><div class="er-svc-icon g">🏥</div><div><div class="er-svc-name">Medical</div><div class="er-svc-call">Call 104</div></div></div>
+        </div>
+
+        <!-- Bottom stats -->
+        <div class="er-bottom-row">
+          <div class="er-stat-card">
+            <div class="er-stat-card-title">Performance Overview</div>
+            <div class="er-perf-metrics">
+              <div class="er-perf-item"><div class="er-perf-label">Avg Response</div><div class="er-perf-val r">02:34</div><div class="er-perf-sub">min ↓18%</div></div>
+              <div class="er-perf-item"><div class="er-perf-label">Confidence</div><div class="er-perf-val g">87%</div><div class="er-perf-sub">↑12%</div></div>
+              <div class="er-perf-item"><div class="er-perf-label">Resolution</div><div class="er-perf-val g">94%</div><div class="er-perf-sub">↑7%</div></div>
+            </div>
+          </div>
+          <div class="er-stat-card">
+            <div class="er-stat-card-title">Stress Level Trend</div>
+            <div class="er-chart-area"><canvas id="erTrendChart" width="100%" height="58"></canvas></div>
+          </div>
+          <div class="er-stat-card">
+            <div class="er-stat-card-title">Active Agents</div>
+            <div class="er-agents-donut">
+              <div class="er-donut-wrap">
+                <svg width="66" height="66" viewBox="0 0 66 66">
+                  <circle cx="33" cy="33" r="26" fill="none" stroke="#1a2030" stroke-width="7"/>
+                  <circle cx="33" cy="33" r="26" fill="none" stroke="var(--green)" stroke-width="7" stroke-dasharray="82 82" stroke-dashoffset="0" transform="rotate(-90 33 33)"/>
+                  <circle cx="33" cy="33" r="26" fill="none" stroke="var(--red)" stroke-width="7" stroke-dasharray="49 163" stroke-dashoffset="-82" transform="rotate(-90 33 33)"/>
+                </svg>
+                <div class="er-donut-center"><div class="er-donut-num">24</div><div class="er-donut-label">Online</div></div>
+              </div>
+              <div class="er-agent-legend">
+                <div class="er-agent-leg"><div class="er-ag-dot" style="background:var(--red)"></div>On Calls: 12</div>
+                <div class="er-agent-leg"><div class="er-ag-dot" style="background:var(--green)"></div>Available: 8</div>
+                <div class="er-agent-leg"><div class="er-ag-dot" style="background:var(--amber)"></div>Busy: 4</div>
+              </div>
+            </div>
+          </div>
+          <div class="er-stat-card">
+            <div class="er-stat-card-title">Resource Status</div>
+            <div class="er-res-grid">
+              <div class="er-res-item" onclick="showToast('12 Ambulances available — Dispatch unit?','info')"><div class="er-res-icon">🚑</div><div class="er-res-name">Ambulances</div><div class="er-res-count">12</div></div>
+              <div class="er-res-item" onclick="showToast('8 Fire units on standby','info')"><div class="er-res-icon">🚒</div><div class="er-res-name">Fire Units</div><div class="er-res-count">8</div></div>
+              <div class="er-res-item" onclick="showToast('15 Police units available','info')"><div class="er-res-icon">🚓</div><div class="er-res-name">Police Units</div><div class="er-res-count">15</div></div>
+              <div class="er-res-item" onclick="showToast('3 Helicopters on standby — Coastal rescue','info')"><div class="er-res-icon">🚁</div><div class="er-res-name">Helicopters</div><div class="er-res-count">3</div></div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /erm-page-dashboard -->
+
+      <!-- ER PAGE 2: ACTIVE COMPLAINT -->
+      <div id="erm-page-call" class="erm-page" style="flex-direction:column">
+        <div class="er-topbar">
+          <div class="er-logo"><div class="er-logo-icon">🛡</div><div><div class="er-logo-text">SAMPARK EMERGENCY RESPONSE</div><div class="er-logo-sub">AI POWERED · REAL TIME · ALWAYS ON</div></div></div>
+          <div class="er-stats">
+            <div><div class="er-stat-num" style="color:var(--red)">8</div><div class="er-stat-label">HIGH ALERTS</div></div>
+            <div><div class="er-stat-num" style="color:var(--accent)">14</div><div class="er-stat-label">ACTIVE INCIDENTS</div></div>
+            <div><div class="er-stat-num" style="color:var(--blue)">23</div><div class="er-stat-label">UNRESOLVED</div></div>
+          </div>
+          <div class="tb-right">
+            <div class="sys-pill"><div class="pulse"></div>OPERATIONAL</div>
+            <div class="tb-clock" id="er-clock2">--:--:--</div>
+            <div class="tb-agent"><div class="av" style="background:linear-gradient(135deg,#1565c0,#42a5f5)">JT</div><div><div style="font-size:12px;font-weight:500">Jessica Taylor</div><div style="font-size:10px;color:var(--text3)">Shift: 07:00–15:00</div></div></div>
+          </div>
+        </div>
+        <div class="er-quickbar">
+          <div class="er-quickbar-left">
+            <button class="er-qa-btn" onclick="erToggleMute()">🎤 Mute AI</button>
+            <button class="er-qa-btn" onclick="erToggleRecord()"><span style="width:7px;height:7px;border-radius:50%;background:var(--red);display:inline-block"></span> Record Call</button>
+            <button class="er-qa-btn" onclick="openModal('broadcast-modal')">📡 Emergency Broadcast</button>
+            <button class="er-qa-btn" onclick="openModal('resource-modal')">📖 Resource Hub</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="er-weather">☁ Severe Weather Warning in Effect</div>
+            <button class="er-view-btn" onclick="showToast('Weather advisory details loaded','warning')">View Details</button>
+          </div>
+        </div>
+        <div class="er-call-grid" style="flex:1;overflow:hidden">
+          <div class="er-call-portal">
+            <div class="er-portal-header">
+              <div class="er-portal-title">AI Call Portal — Emergency Line</div>
+              <div class="er-caller-info">
+                <div class="er-caller-av-wrap">
+                  <div class="er-caller-av">VG</div>
+                  <div class="er-live-badge">LIVE CALL</div>
+                </div>
+                <div style="flex:1">
+                  <div class="er-caller-name">Vijay Gowda</div>
+                  <div class="er-caller-phone">(+91)9471058326</div>
+                  <div class="er-caller-badges"><span class="er-badge-crit">CRITICAL PRIORITY</span></div>
+                </div>
+                <div class="er-dur">
+                  <div class="er-dur-val" id="er-call-dur">02:45</div>
+                  <div class="er-dur-label">CALL DURATION</div>
+                  <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--green);margin-top:2px"><div class="blink-dot" style="background:var(--green)"></div>LIVE</div>
+                </div>
+              </div>
+            </div>
+            <div class="er-tr-area">
+              <div class="er-tr-label"><span class="blink-dot" style="background:var(--green)"></span> LIVE TRANSCRIPT</div>
+              <div id="er-transcript">
+                <div class="er-tr-row"><span class="er-tr-time">02:41:05</span><span class="er-tr-speaker ai">AI Agent:</span><span class="er-tr-text">Emergency 1092. This is SAMPARK AI. Please state the nature of your emergency.</span></div>
+                <div class="er-tr-row"><span class="er-tr-time">02:41:10</span><span class="er-tr-speaker caller">Caller:</span><span class="er-tr-text caller-txt">Haalu... fire... building mele... neighbour mane suliyuttide! Yellaru odiyaadru!</span></div>
+                <div class="er-tr-row"><span class="er-tr-time">02:41:17</span><span class="er-tr-speaker ai">AI Agent:</span><span class="er-tr-text">Sir, I understand — fire in a building near you. Are people still trapped inside? Please give me your exact location.</span></div>
+                <div class="er-tr-row"><span class="er-tr-time">02:41:24</span><span class="er-tr-speaker caller">Caller:</span><span class="er-tr-text caller-txt">Haan... 3rd floor mele yaaro ide... hogu hogu antave... Rajajinagar 2nd block, Bengaluru!</span></div>
+                <div class="er-tr-row"><span class="er-tr-time">02:41:31</span><span class="er-tr-speaker ai">AI Agent:</span><span class="er-tr-text">Confirmed — Rajajinagar 2nd Block, Bengaluru. Fire unit and rescue team are being dispatched. Estimated response: 4 minutes.</span></div>
+                <div class="er-tr-row"><span class="er-tr-time">02:41:38</span><span class="er-tr-speaker caller">Caller:</span><span class="er-tr-text caller-txt">Bega kali... smoke tumba ide... breathe aagutte illa...</span></div>
+                <div class="er-tr-row"><span class="er-tr-time">02:41:44</span><span class="er-tr-speaker ai">AI Agent:</span><span class="er-tr-text">Stay low to the ground — smoke rises. Cover your mouth with cloth. Do NOT use the lift. Help is almost there, sir. Stay on the line.</span></div>
+              </div>
+            </div>
+            <div class="er-stress-panel">
+              <div class="er-stress-title">Stress Analysis</div>
+              <div class="er-stress-pct" id="er-stress-pct">92%</div>
+              <div class="er-stress-label-text">Very High Stress</div>
+              <div class="er-stress-bar-bg"><div class="er-stress-bar-fill" id="er-stress-fill" style="width:92%"></div></div>
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;margin-top:8px;font-weight:700">Emotional State</div>
+              <div class="er-emo-tags">
+                <span class="er-emo-tag">Panicked</span>
+                <span class="er-emo-tag">Smoke Inhalation</span>
+                <span class="er-emo-tag">High Anxiety</span>
+                <span class="er-emo-tag">Urgent Distress</span>
+              </div>
+              <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px;margin-top:8px;font-weight:700">Voice Waveform <span style="color:var(--red)">● LIVE</span></div>
+              <canvas id="erWaveCanvas" width="100%" height="40" style="width:100%"></canvas>
+            </div>
+            <div class="er-portal-actions">
+              <button class="er-btn-end" onclick="erEndCall()">📞 END CALL</button>
+              <button class="er-btn-transfer" onclick="erTransferCall()">⇄ TRANSFER</button>
+              <button class="er-btn-escalate" onclick="openModal('escalate-modal')">⚠ ESCALATE</button>
+            </div>
+          </div>
+          <!-- ER Map right -->
+          <div class="er-map-right">
+            <div class="er-map-right-header">
+              <span class="er-mh-title">Live Incident Map</span>
+              <div class="er-mh-filters">
+                <button class="er-mf-btn active" onclick="erFilterMap(this,'all')">All</button>
+                <button class="er-mf-btn" onclick="erFilterMap(this,'medical')">Medical</button>
+                <button class="er-mf-btn" onclick="erFilterMap(this,'fire')">Fire</button>
+                <button class="er-mf-btn" onclick="erFilterMap(this,'police')">Police</button>
+              </div>
+            </div>
+            <div class="er-map-body">
+              <canvas id="erMap2Canvas" style="width:100%;height:100%"></canvas>
+              <div class="er-incident-popup">
+                <div class="er-popup-type">➕ Medical Emergency</div>
+                <div class="er-popup-priority">High Priority</div>
+                <div class="er-popup-time" id="er-popup-time">Just Now</div>
+                <div class="er-popup-accuracy">Location Accuracy: 95%</div>
+              </div>
+              <div style="position:absolute;right:14px;top:14px;background:rgba(8,12,24,0.9);border:1px solid var(--border);border-radius:6px;padding:10px">
+                <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:7px;font-weight:700">Incident Legend</div>
+                <div style="display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--text2)">
+                  <div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:50%;background:var(--red)"></div>High Alert — Critical</div>
+                  <div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>Medium Alert</div>
+                  <div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:50%;background:var(--green)"></div>Low Alert</div>
+                  <div style="display:flex;align-items:center;gap:6px"><div style="width:8px;height:8px;border-radius:50%;background:var(--blue)"></div>Resolved</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /erm-page-call -->
+
+      <!-- ER PAGE 3: ADMIN CONTROL CENTER -->
+      <div id="erm-page-admin" class="erm-page" style="flex-direction:column">
+        <div class="er-admin-layout" style="flex:1;overflow:hidden">
+          <div class="er-admin-sidebar">
+            <div style="width:40px;height:40px;background:linear-gradient(135deg,#b71c1c,var(--red));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:18px">🛡</div>
+            <div class="er-nav-item active" onclick="showERPage('admin',null)"><div class="er-nav-icon">📞</div><div class="er-nav-label">Live Calls</div></div>
+            <div class="er-nav-item" onclick="showERPage('dashboard',null)"><div class="er-nav-icon">📍</div><div class="er-nav-label">Map</div></div>
+            <div class="er-nav-item" onclick="showToast('Call history — 247 calls logged today','info')"><div class="er-nav-icon">⏱</div><div class="er-nav-label">History</div></div>
+            <div class="er-nav-item" onclick="openModal('escalate-modal')"><div class="er-nav-icon">⚙</div><div class="er-nav-label">Settings</div></div>
+          </div>
+          <div class="er-admin-main">
+            <div class="er-admin-topbar">
+              <div class="er-admin-title">Emergency Control Center</div>
+              <div class="tb-right">
+                <div class="sys-pill"><div class="pulse"></div>OPERATIONAL</div>
+                <div class="tb-clock" id="er-clock3">--:--:--</div>
+                <div style="position:relative;cursor:pointer;margin:0 4px" onclick="showToast('3 unread alerts — Click to view','info')">🔔<span class="notif-badge">3</span></div>
+                <div class="av" style="background:linear-gradient(135deg,#4a0080,#9c27b0)">👩</div>
+              </div>
+            </div>
+            <div class="er-admin-content">
+              <div class="er-call-list-panel">
+                <div class="er-clp-header">
+                  <div class="er-clp-tabs">
+                    <div class="er-clp-tab active" onclick="erSwitchTab(this,'ongoing')">Ongoing</div>
+                    <div class="er-clp-tab" onclick="erSwitchTab(this,'history')">History</div>
+                  </div>
+                  <span style="font-size:16px;color:var(--text3);cursor:pointer" onclick="showToast('Filter options coming soon','info')">≡</span>
+                </div>
+                <div class="er-call-items" id="er-call-items">
+                  <div class="er-call-item selected" onclick="erSelectCall(this,'Vijay Gowda','(+91)9471058326','VG','02:45','High','Fire Incident')">
+                    <div class="er-ci-left"><div class="er-ci-dot r"></div><div><div class="er-ci-name">Vijay Gowda</div><div class="er-ci-priority r">High Priority</div></div></div>
+                    <div class="er-ci-time" style="color:var(--red)">02:45</div>
+                  </div>
+                  <div class="er-call-item" onclick="erSelectCall(this,'Samba Patil','(+91)9218900453','SP','01:18','Medium','Fire Incident')">
+                    <div class="er-ci-left"><div class="er-ci-dot o"></div><div><div class="er-ci-name">Samba Patil</div><div class="er-ci-priority o">Medium Priority</div></div></div>
+                    <div class="er-ci-time">01:18</div>
+                  </div>
+                  <div class="er-call-item" onclick="erSelectCall(this,'Unknown Caller','Unknown Number','UC','00:52','High','Unknown Emergency')">
+                    <div class="er-ci-left"><div class="er-ci-dot r"></div><div><div class="er-ci-name">Unknown Caller</div><div class="er-ci-priority r">High Priority</div></div></div>
+                    <div class="er-ci-time">00:52</div>
+                  </div>
+                  <div class="er-call-item" onclick="erSelectCall(this,'Meera Setti','(+91)9743201187','MS','03:22','Low','Road Accident')">
+                    <div class="er-ci-left"><div class="er-ci-dot g"></div><div><div class="er-ci-name">Meera Setti</div><div class="er-ci-priority g">Low Priority</div></div></div>
+                    <div class="er-ci-time">03:22</div>
+                  </div>
+                  <div class="er-call-item" onclick="erSelectCall(this,'Ashwin Kumar','(+91)9886540234','AK','02:10','Medium','Flooding')">
+                    <div class="er-ci-left"><div class="er-ci-dot o"></div><div><div class="er-ci-name">Ashwin Kumar</div><div class="er-ci-priority o">Medium Priority</div></div></div>
+                    <div class="er-ci-time">02:10</div>
+                  </div>
+                  <div class="er-call-item" onclick="erSelectCall(this,'Rajnandini Pawar','(+91)9632871045','RP','01:05','Low','Missing Person')">
+                    <div class="er-ci-left"><div class="er-ci-dot g"></div><div><div class="er-ci-name">Rajnandini Pawar</div><div class="er-ci-priority g">Low Priority</div></div></div>
+                    <div class="er-ci-time">01:05</div>
+                  </div>
+                </div>
+                <div class="er-view-all-calls" onclick="showToast('Loading all 47 ongoing calls…','info')">View all ongoing calls ›</div>
+              </div>
+
+              <div class="er-admin-right">
+                <div class="er-call-detail-area">
+                  <div class="er-call-detail-main">
+                    <div class="er-cdm-header">
+                      <div class="er-cdm-caller">
+                        <div class="er-cdm-av" id="er-cdm-av">VG</div>
+                        <div>
+                          <div class="er-cdm-name" id="er-cdm-name">Vijay Gowda</div>
+                          <div class="er-cdm-phone" id="er-cdm-phone">(+91)9471058326</div>
+                        </div>
+                        <div class="er-cdm-priority" id="er-cdm-priority">HIGH PRIORITY</div>
+                      </div>
+                      <div>
+                        <div class="er-cdm-duration" id="er-cdm-dur">02:45</div>
+                        <div style="font-size:9px;color:var(--text3)">Call Duration</div>
+                        <div class="er-cdm-live"><div class="blink-dot" style="background:var(--green)"></div>LIVE</div>
+                      </div>
+                      <span style="color:var(--text3);font-size:18px;cursor:pointer" onclick="showToast('Call options menu','info')">⋮</span>
+                    </div>
+                    <div class="er-conv-wrap" id="er-admin-transcript">
+                      <div class="er-conv-msgs" id="er-admin-conv-msgs"></div>
+                      <div class="er-conv-input-area">
+                        <div class="er-conv-input-row">
+                          <input type="text" class="er-conv-input" id="er-admin-conv-input" placeholder="Reply to caller or add admin note…" onkeydown="if(event.key==='Enter')erAdminSend()">
+                          <button class="er-conv-send" onclick="erAdminSend()">Send ▶</button>
+                        </div>
+                        <div class="er-conv-hint">💬 Messages sent here go to the active call for this person</div>
+                      </div>
+                    </div>
+                    <div class="er-stress-row">
+                      <div>
+                        <div class="er-ss-label">Stress Level</div>
+                        <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+                          <div class="er-ss-val" id="er-admin-stress">85%</div>
+                          <div class="er-ss-sub">Very High</div>
+                        </div>
+                        <canvas id="erAdminStressChart" width="180" height="50"></canvas>
+                      </div>
+                      <div class="er-conf-side">
+                        <svg width="56" height="56" viewBox="0 0 56 56">
+                          <circle cx="28" cy="28" r="22" fill="none" stroke="var(--bg4)" stroke-width="6"/>
+                          <circle cx="28" cy="28" r="22" fill="none" stroke="var(--green)" stroke-width="6" stroke-dasharray="100 138" transform="rotate(-90 28 28)"/>
+                        </svg>
+                        <div>
+                          <div class="er-conf-val" id="er-admin-conf">78%</div>
+                          <div class="er-conf-sub">High</div>
+                          <div style="font-size:10px;color:var(--text3)">Agent Confidence</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="er-action-btns">
+                      <button class="er-act-take" onclick="erTakeOver()">🎧 TAKE OVER CALL</button>
+                      <button class="er-act-ai" onclick="showToast('AI continues handling call. Agent monitoring.','success')">🤖 CONTINUE AI</button>
+                      <button class="er-act-back" onclick="erCallBack()">📞 CALL BACK</button>
+                    </div>
+                  </div>
+                  <div class="er-insights-panel">
+                    <div class="er-ins-title">Insights</div>
+                    <div class="er-ins-section">
+                      <div class="er-ins-sec-title">Emergency Category</div>
+                      <div class="er-em-cat">
+                        <div class="er-em-cat-icon" id="er-em-icon">🔥</div>
+                        <div><div class="er-em-cat-name" id="er-em-name">Fire Incident</div><div class="er-em-cat-sub" id="er-em-sub">High Priority</div></div>
+                      </div>
+                    </div>
+                    <div class="er-ins-section">
+                      <div class="er-ins-sec-title">Stress Indicators</div>
+                      <div class="er-si-tags" id="er-si-tags">
+                        <span class="er-si-tag r">Panicked</span>
+                        <span class="er-si-tag o">Smoke Inhalation</span>
+                        <span class="er-si-tag r">High Anxiety</span>
+                      </div>
+                    </div>
+                    <div class="er-ins-section">
+                      <div class="er-ins-sec-title">Voice Analysis</div>
+                      <canvas id="erInsWave" width="220" height="36" style="width:100%"></canvas>
+                      <div style="font-size:10px;color:var(--red);margin-top:4px" id="er-voice-analysis">Detected as highly stressed</div>
+                    </div>
+                    <div class="er-ins-section">
+                      <div class="er-ins-sec-title">Location</div>
+                      <div class="er-location-info" id="er-location-info">
+                        📍 Rajajinagar 2nd Block, Bengaluru, Karnataka 560010<br>
+                        <div class="er-loc-accuracy">Accuracy: High (95%)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Admin bottom map -->
+                <div class="er-admin-map-row">
+                  <div class="er-amr-header">
+                    <div class="er-amr-title">Global Map Overview</div>
+                    <div class="er-amr-legend">
+                      <div class="er-amrl-item"><div class="er-amrl-dot" style="background:var(--red)"></div>High Priority</div>
+                      <div class="er-amrl-item"><div class="er-amrl-dot" style="background:var(--accent)"></div>Medium</div>
+                      <div class="er-amrl-item"><div class="er-amrl-dot" style="background:var(--green)"></div>Low</div>
+                      <div class="er-amrl-item"><div class="er-amrl-dot" style="background:var(--blue)"></div>Resolved</div>
+                    </div>
+                    <div style="display:flex;gap:5px">
+                      <button class="flt-btn" onclick="showToast('Map zoomed in','info')">+</button>
+                      <button class="flt-btn" onclick="showToast('Map zoomed out','info')">−</button>
+                    </div>
+                  </div>
+                  <div class="er-amr-map" id="er-amr-map">
+                    <canvas id="erAdminMapCanvas" style="width:100%;height:100%"></canvas>
+                    <div class="er-map-hint">🖱 Click on any marker to view call details</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><!-- /erm-page-admin -->
+
+    </div><!-- /erm-pages -->
+  </div><!-- /module-emergency -->
+
+</div><!-- /app -->
+
+<!-- ══ MODALS ══ -->
+<!-- Escalate -->
+<div class="modal-overlay" id="escalate-modal">
+  <div class="modal">
+    <div class="modal-title" style="color:var(--amber)">⚠ Escalate to Human Agent</div>
+    <div class="modal-sub">The AI will step back gracefully. A human agent takes full control.</div>
+    <div class="modal-field"><label>Reason for Escalation</label>
+      <select id="escalate-reason">
+        <option>Low AI Confidence (< 60%)</option>
+        <option>Repeated Misunderstanding</option>
+        <option>High Distress / Urgency Detected</option>
+        <option>Citizen Request</option>
+        <option>Complex Legal / Administrative Issue</option>
+        <option>Language Not Supported</option>
+        <option>Medical Emergency — Human needed</option>
+      </select>
+    </div>
+    <div class="modal-field"><label>Notes for receiving agent</label>
+      <textarea id="escalate-notes" placeholder="Summarize the issue for the human agent…"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-cancel" onclick="closeModal('escalate-modal')">Cancel</button>
+      <button class="mbtn mbtn-confirm" onclick="confirmEscalate()">Confirm Escalation</button>
+    </div>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="summary-overlay" id="summary-modal">
+  <div class="summary-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:var(--font-head);font-size:17px;font-weight:700">📋 Call Summary</div>
+      <button onclick="closeModal('summary-modal')" style="background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="sum-section"><div class="sum-section-title">Caller</div><div class="sum-content" id="sum-caller">Ramesh Kumar · +91 9845 012 345 · Mangaluru, Dakshina Kannada</div></div>
+    <div class="sum-section"><div class="sum-section-title">Issue Identified</div><div class="sum-content" id="sum-issue">No conversation yet. Send a message to generate summary.</div></div>
+    <div class="sum-section"><div class="sum-section-title">AI Understanding</div><div class="sum-content" id="sum-understanding">—</div></div>
+    <div class="sum-section"><div class="sum-section-title">Sentiment & Urgency</div><div class="sum-content" id="sum-sentiment">—</div></div>
+    <div class="sum-section"><div class="sum-section-title">Recommended Action</div><div class="sum-content" id="sum-action">—</div></div>
+    <div class="modal-btns" style="margin-top:14px">
+      <button class="mbtn mbtn-cancel" onclick="closeModal('summary-modal')">Close</button>
+      <button class="mbtn mbtn-success" onclick="exportSummary()">Export Summary</button>
+    </div>
+  </div>
+</div>
+
+<!-- Resource Hub -->
+<div class="modal-overlay" id="resource-modal">
+  <div class="resource-modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <div style="font-family:var(--font-head);font-size:17px;font-weight:700">📖 Resource Hub</div>
+      <button onclick="closeModal('resource-modal')" style="background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="res-hub-item" onclick="showToast('Opening Food & Civil Supplies portal…','success')"><div class="res-hub-item-title">🍎 Food & Civil Supplies — Ration Card</div><div class="res-hub-item-sub">Renewal, corrections, new applications · Dept contact: 080-22250803</div></div>
+    <div class="res-hub-item" onclick="showToast('Opening Pension portal…','success')"><div class="res-hub-item-title">👴 Social Welfare — Pension Schemes</div><div class="res-hub-item-sub">Sandhya Suraksha, Disability pension · samajikabhavana.kar.nic.in</div></div>
+    <div class="res-hub-item" onclick="showToast('Opening KUWSDB Water Board…','success')"><div class="res-hub-item-title">💧 KUWSDB — Water Supply</div><div class="res-hub-item-sub">Supply disruptions, new connections · Toll free: 1800-425-2517</div></div>
+    <div class="res-hub-item" onclick="showToast('Opening Health & Family Welfare…','success')"><div class="res-hub-item-title">🏥 Health & Family Welfare</div><div class="res-hub-item-sub">Ambulance 108, hospitals, Ayushman Bharat · 104 Medical helpline</div></div>
+    <div class="res-hub-item" onclick="showToast('Opening UIDAI Aadhaar services…','success')"><div class="res-hub-item-title">🪪 UIDAI — Aadhaar & ID Services</div><div class="res-hub-item-sub">Name/DOB corrections, reprint · 1947 helpline</div></div>
+    <div class="res-hub-item" onclick="showToast('Calling Police Control Room — 100','info')"><div class="res-hub-item-title">🚓 Police — 100 Emergency</div><div class="res-hub-item-sub">Karnataka Police Control Room · Available 24/7</div></div>
+    <div class="res-hub-item" onclick="showToast('Calling Ambulance — 108','info')"><div class="res-hub-item-title">🚑 Ambulance — 108</div><div class="res-hub-item-sub">CATS Ambulance service · Free emergency response</div></div>
+    <div class="modal-btns" style="margin-top:14px">
+      <button class="mbtn mbtn-cancel" onclick="closeModal('resource-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Broadcast -->
+<div class="modal-overlay" id="broadcast-modal">
+  <div class="broadcast-modal">
+    <div class="modal-title" style="color:var(--red)">📡 Emergency Broadcast</div>
+    <div class="modal-sub">Send an emergency broadcast to all active agents on this shift.</div>
+    <div class="modal-field"><label>Broadcast Type</label>
+      <select id="broadcast-type">
+        <option>Weather Advisory</option>
+        <option>Mass Casualty Event</option>
+        <option>Infrastructure Failure</option>
+        <option>Shift Instruction</option>
+        <option>System Alert</option>
+      </select>
+    </div>
+    <div class="modal-field"><label>Message</label>
+      <textarea id="broadcast-msg" placeholder="Type your broadcast message to all agents…">Severe weather warning — Coastal Karnataka. All agents remain alert. Prioritize distress calls from Dakshina Kannada district.</textarea>
+    </div>
+    <div class="modal-field"><label>Recipients</label>
+      <select id="broadcast-to">
+        <option>All Active Agents (24)</option>
+        <option>Kannada-speaking Agents (12)</option>
+        <option>Hindi-speaking Agents (6)</option>
+        <option>Supervisors Only (4)</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-cancel" onclick="closeModal('broadcast-modal')">Cancel</button>
+      <button class="mbtn" style="background:var(--red);color:#fff" onclick="sendBroadcast()">📡 Send Broadcast</button>
+    </div>
+  </div>
+</div>
+
+<!-- Transfer -->
+<div class="modal-overlay" id="transfer-modal">
+  <div class="modal">
+    <div class="modal-title" style="color:var(--blue)">⇄ Transfer Call</div>
+    <div class="modal-sub">Transfer this citizen to a specialist agent or government department.</div>
+    <div class="modal-field"><label>Transfer To</label>
+      <select id="transfer-to">
+        <option>Food & Civil Supplies Department</option>
+        <option>Social Welfare — Pension Cell</option>
+        <option>KUWSDB Water Board</option>
+        <option>Health & Family Welfare</option>
+        <option>UIDAI Aadhaar Center</option>
+        <option>Senior Agent (Supervisor)</option>
+        <option>Kannada-speaking Specialist</option>
+      </select>
+    </div>
+    <div class="modal-field"><label>Transfer Note</label>
+      <textarea id="transfer-note" placeholder="Briefing note for receiving agent…"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="mbtn mbtn-cancel" onclick="closeModal('transfer-modal')">Cancel</button>
+      <button class="mbtn" style="background:var(--blue);color:#fff" onclick="confirmTransfer()">Confirm Transfer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+const S = {
+  callSeconds:0,timerInt:null,callActive:true,isMuted:false,isRecording:false,
+  messages:[],conversationHistory:[],currentLang:'english',
+  confidence:0,stress:0,emotions:[],verificationPending:false,lastParsed:null,
+  mapFilter:'all',mapPulse:0,erMapFilter:'all',
+  erMuted:false,erRecording:false,
+};
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+function goToApp(){
+  document.getElementById('landing').classList.remove('active');
+  document.getElementById('app').classList.add('active');
+  initApp();
+}
+function switchModule(mod){
+  ['sampark','emergency'].forEach(m=>{
+    document.getElementById('module-'+m).classList.toggle('active',m===mod);
+    document.getElementById('tab-'+m).classList.toggle('active',m===mod);
+  });
+  if(mod==='emergency') initERCanvases();
+}
+function showERPage(page,btn){
+  document.querySelectorAll('.erm-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('erm-page-'+page).classList.add('active');
+  document.querySelectorAll('.er-snav-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else {
+    // find and activate by page
+    const map={dashboard:0,call:1,admin:2};
+    const btns=document.querySelectorAll('.er-snav-btn');
+    if(btns[map[page]]) btns[map[page]].classList.add('active');
+  }
+  if(page==='dashboard') initERDashboardMap();
+  if(page==='call') initERCallMaps();
+  if(page==='admin') initERAdminMaps();
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+function initApp(){
+  startClock();
+  startCallTimer();
+  initWaveform();
+  initMap();
+  drawTrendChart();
+  addSystemMessage('SAMPARK AI initialized. Citizen connected. Language auto-detection active.');
+  setTimeout(()=>addSystemMessage('Kannada (Coastal dialect) detected — 94% confidence. Sentiment monitoring active.'),1400);
+}
+function startClock(){
+  function tick(){
+    const n=new Date();
+    const t=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+    ['clock','er-clock','er-clock2','er-clock3'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=t;});
+    const el=document.getElementById('er-last-updated');
+    if(el) el.textContent='⏱ Last Updated: '+t;
+  }
+  tick(); setInterval(tick,1000);
+}
+function startCallTimer(){
+  S.timerInt=setInterval(()=>{
+    S.callSeconds++;
+    const m=String(Math.floor(S.callSeconds/60)).padStart(2,'0');
+    const s=String(S.callSeconds%60).padStart(2,'0');
+    const el=document.getElementById('duration');
+    if(el) el.textContent=m+':'+s;
+    // also update er call dur
+    const er=document.getElementById('er-call-dur');
+    if(er){let base=165+S.callSeconds;const bm=String(Math.floor(base/60)).padStart(2,'0');const bs=String(base%60).padStart(2,'0');er.textContent=bm+':'+bs;}
+  },1000);
+}
+
+// ══════════════════════════════════════════════
+// WAVEFORM
+// ══════════════════════════════════════════════
+function initWaveform(){
+  const canvas=document.getElementById('waveCanvas');
+  canvas.width=canvas.parentElement.offsetWidth-28;
+  animWave(canvas,'255,95,46',()=>S.callActive);
+}
+function animWave(canvas,color,activeCheck){
+  const ctx=canvas.getContext('2d');let t=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const bars=Math.floor(canvas.width/5);
+    for(let i=0;i<bars;i++){
+      const h=activeCheck()?3+Math.abs(Math.sin(i*0.2+t)*12)+Math.abs(Math.sin(i*0.5+t*1.3)*6):2;
+      const a=0.3+Math.abs(Math.sin(i*0.15+t))*0.7;
+      const g=ctx.createLinearGradient(0,canvas.height/2-h,0,canvas.height/2+h);
+      g.addColorStop(0,`rgba(${color},${a})`);g.addColorStop(1,`rgba(${color},${a*0.3})`);
+      ctx.fillStyle=g;ctx.beginPath();
+      if(ctx.roundRect)ctx.roundRect(i*5+1,canvas.height/2-h,3,h*2,1);
+      else ctx.rect(i*5+1,canvas.height/2-h,3,h*2);
+      ctx.fill();
+    }
+    t+=0.06;requestAnimationFrame(draw);
+  }
+  draw();
+}
+function initERWaves(){
+  const c=document.getElementById('erWaveCanvas');
+  if(c){c.width=c.parentElement.offsetWidth||340;animWave(c,'255,61,90',()=>true);}
+  const c2=document.getElementById('erInsWave');
+  if(c2){c2.width=c2.parentElement.offsetWidth||220;animWave(c2,'255,61,90',()=>true);}
+}
+
+// ══════════════════════════════════════════════
+// TRANSCRIPT HELPERS
+// ══════════════════════════════════════════════
+function addMessage(role,text,conf){
+  const tr=document.getElementById('transcript');
+  const div=document.createElement('div');div.className='msg';
+  const n=new Date();
+  const ts=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+  let metaHtml='',confHtml='';
+  if(role==='ai') metaHtml=`<span class="lbl-ai">⬡ SAMPARK AI</span><span style="color:var(--text3)">${ts}</span>`;
+  else if(role==='caller') metaHtml=`<span class="lbl-caller">Caller</span><span style="color:var(--text3)">${ts}</span>`;
+  else metaHtml=`<span style="color:var(--teal);font-size:10px">⬢ SYSTEM</span><span style="color:var(--text3)">${ts}</span>`;
+  if(conf) confHtml=`<div class="msg-conf" style="color:${conf>75?'var(--teal)':conf>55?'var(--amber)':'var(--red)'}">${conf>75?'↑':'⚡'} ${conf}% Confidence</div>`;
+  div.innerHTML=`<div class="msg-meta">${metaHtml}</div><div class="msg-bubble ${role}">${text}</div>${confHtml}`;
+  tr.appendChild(div);tr.scrollTop=tr.scrollHeight;
+  S.messages.push({role,text,ts});
+}
+function addSystemMessage(text){addMessage('system',text);}
+function showTyping(){
+  const tr=document.getElementById('transcript');
+  const div=document.createElement('div');div.id='typing-msg';div.className='msg';
+  div.innerHTML=`<div class="msg-meta"><span class="lbl-ai">⬡ SAMPARK AI</span></div><div class="msg-bubble ai"><div class="typing-indicator"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>`;
+  tr.appendChild(div);tr.scrollTop=tr.scrollHeight;
+}
+function removeTyping(){const e=document.getElementById('typing-msg');if(e)e.remove();}
+
+// ══════════════════════════════════════════════
+// SAMPLES
+// ══════════════════════════════════════════════
+const SAMPLES=[
+  {k:"ನನ್ನ ರೇಶನ್ ಕಾರ್ಡ್ 3 ತಿಂಗಳಿಂದ ನವೀಕರಣ ಆಗಿಲ್ಲ. ಅಂಗಡಿಯಲ್ಲಿ ಆಹಾರ ಸಿಗ್ತಾ ಇಲ್ಲ. ಮಕ್ಕಳಿಗೆ ತೊಂದರೆ ಆಗ್ತಿದೆ.",h:"मेरा राशन कार्ड 3 महीने से अपडेट नहीं हुआ। दुकान में खाना नहीं मिल रहा, बच्चे भूखे हैं।",e:"My ration card hasn't been renewed for 3 months. The shop is not giving food. My children are suffering."},
+  {k:"ನನ್ನ ಅಮ್ಮನ ವೃದ್ಧಾಪ್ಯ ಪಿಂಚಣಿ 4 ತಿಂಗಳಿಂದ ಬಂದಿಲ್ಲ. ಅವರಿಗೆ ಔಷಧ ತರಲು ಹಣ ಇಲ್ಲ.",h:"मेरी माँ की वृद्धावस्था पेंशन 4 महीने से नहीं आई। दवाई के लिए पैसे नहीं।",e:"My mother's old age pension has not arrived for 4 months. We have no money for her medicines."},
+  {k:"ನಮ್ಮ ಕಾಲೋನಿಯಲ್ಲಿ 5 ದಿನದಿಂದ ನೀರು ಬರ್ತಾ ಇಲ್ಲ. ತುಂಬಾ ತಾಪ ಇದೆ, ಮಕ್ಕಳಿಗೆ ಕಷ್ಟ.",h:"हमारी कॉलोनी में 5 दिन से पानी नहीं आ रहा। बहुत गर्मी है।",e:"There is no water supply in our colony for 5 days. It is very hot and children are struggling."},
+  {k:"ನನ್ನ ಅಪ್ಪನಿಗೆ ಎದೆ ನೋವಾಗ್ತಿದೆ, ಉಸಿರಾಟ ಕಷ್ಟ. ಹತ್ತಿರ ಯಾವ ಸರ್ಕಾರಿ ಆಸ್ಪತ್ರೆ ಇದೆ?",h:"मेरे पिताजी को सीने में दर्द और सांस लेने में तकलीफ। नजदीकी सरकारी अस्पताल?",e:"My father is having chest pain and difficulty breathing. Which is the nearest government hospital?"},
+  {k:"ನನ್ನ ಆಧಾರ್ ಕಾರ್ಡ್‌ನಲ್ಲಿ ಹೆಸರು ತಪ್ಪಾಗಿದೆ. ಬ್ಯಾಂಕ್ ಖಾತೆ ಲಿಂಕ್ ಆಗ್ತಾ ಇಲ್ಲ.",h:"मेरे आधार कार्ड में नाम गलत है। बैंक खाता लिंक नहीं हो रहा।",e:"My name is wrong on my Aadhaar card. My bank account is not linking and scholarship money is not coming."},
+];
+function loadSample(i){
+  const s=SAMPLES[i];const l=S.currentLang;
+  document.getElementById('input-field').value=l==='kannada'?s.k:l==='hindi'?s.h:s.e;
+}
+
+// ══════════════════════════════════════════════
+// LANGUAGE SWITCH
+// ══════════════════════════════════════════════
+const LANG_META={
+  kannada:{badge:'ಕನ್ನಡ · KAN',dialect:'Coastal Dialect',display:'Kannada (Coastal)'},
+  hindi:{badge:'हिन्दी · HIN',dialect:'Standard',display:'Hindi'},
+  english:{badge:'English · ENG',dialect:'Indian English',display:'English'},
+};
+function switchLanguage(){
+  S.currentLang=document.getElementById('input-lang').value;
+  const m=LANG_META[S.currentLang];
+  document.getElementById('lang-badge').textContent=m.badge;
+  document.getElementById('dialect-info').textContent=m.dialect;
+  document.getElementById('lang-display').textContent=m.display;
+  showToast('Language switched to '+m.display,'success');
+}
+
+// ══════════════════════════════════════════════
+// CLAUDE API — SEND MESSAGE
+// ══════════════════════════════════════════════
+async function sendMessage(){
+  const field=document.getElementById('input-field');
+  const text=field.value.trim();
+  if(!text||!S.callActive) return;
+  field.value='';
+  document.getElementById('send-btn').disabled=true;
+  document.getElementById('ai-mode').textContent='Processing…';
+  addMessage('caller',text);
+  S.conversationHistory.push({role:'user',content:text});
+  showTyping();
+  try{
+    const sys=`You are SAMPARK AI, the intelligent assistive layer for Karnataka's 1092 citizen helpline. Understand issues in Kannada, Hindi, English (with dialects). Detect sentiment, urgency. Verify understanding with the citizen.
+
+Always respond ONLY in this JSON (no markdown fences):
+{"response":"empathetic reply in citizen's language","language_detected":"Kannada/Hindi/English + dialect","issue_category":"food/pension/water/medical/id/infra/admin/other","issue_summary":"1-2 sentences in English","sentiment":["distress","urgency","anger","fear","confusion","calm"],"stress_level":0-100,"confidence":0-100,"urgency":"low/medium/high/critical","verification_ready":true/false,"verification_statement":"I understand that [caller] is facing [issue]. Is this correct?","recommended_dept":"Dept name + contact","escalate_flag":true/false,"escalate_reason":""}`;
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:S.conversationHistory})
+    });
+    const data=await resp.json();
+    removeTyping();
+    let p;
+    try{p=JSON.parse(data.content[0].text.replace(/```json|```/g,'').trim());}
+    catch{p={response:data.content[0]?.text||'Processing…',language_detected:'English',issue_summary:text,sentiment:['concern'],stress_level:50,confidence:60,urgency:'medium',verification_ready:false,issue_category:'other',recommended_dept:'General Services'};}
+    S.conversationHistory.push({role:'assistant',content:data.content[0].text});
+    addMessage('ai',p.response,p.confidence);
+    updateAnalytics(p);
+    if(p.verification_ready&&p.verification_statement) showVerification(p);
+    if(p.escalate_flag){
+      setTimeout(()=>{
+        addSystemMessage('⚠ Escalation recommended: '+(p.escalate_reason||'High urgency'));
+        document.getElementById('escalate-notes').value=p.issue_summary||'';
+        showToast('Escalation recommended by AI','warning');
+      },500);
+    }
+    updateMapWithIncident(p.issue_category);
+  }catch(err){
+    removeTyping();
+    addMessage('ai','I encountered an issue. Please try again or escalate to human agent.');
+    console.error(err);
+  }
+  document.getElementById('send-btn').disabled=false;
+  document.getElementById('ai-mode').textContent='Listening';
+}
+
+// ══════════════════════════════════════════════
+// ANALYTICS
+// ══════════════════════════════════════════════
+function updateAnalytics(p){
+  const conf=p.confidence||0;S.confidence=conf;
+  document.getElementById('conf-bar').style.width=conf+'%';
+  document.getElementById('conf-val').textContent=conf+'%';
+  document.getElementById('conf-bar').style.background=conf>75?'var(--teal)':conf>50?'var(--amber)':'var(--red)';
+  document.getElementById('conf-val').style.color=conf>75?'var(--teal)':conf>50?'var(--amber)':'var(--red)';
+  const stress=p.stress_level||0;S.stress=stress;
+  document.getElementById('stress-bar').style.width=stress+'%';
+  document.getElementById('stress-val').textContent=stress+'%';
+  document.getElementById('stress-val').style.color=stress>75?'var(--red)':stress>50?'var(--amber)':'var(--teal)';
+  const sL=['Calm','Mild Stress','Moderate','High Stress','Very High Stress','Critical'];
+  document.getElementById('stress-label').textContent=sL[Math.min(5,Math.floor(stress/20))];
+  document.getElementById('stress-flag').style.display=stress>65?'':'none';
+  const ec=document.getElementById('emotion-tags');ec.innerHTML='';
+  (p.sentiment||[]).forEach(e=>{
+    const s=document.createElement('span');
+    s.className='etag '+(['distress','anger','fear','urgency'].includes(e)?'red':'amber');
+    s.textContent=e.charAt(0).toUpperCase()+e.slice(1);ec.appendChild(s);
+  });
+  if(p.language_detected) document.getElementById('lang-display').textContent=p.language_detected;
+  const pb=document.getElementById('priority-badge');const u=p.urgency||'medium';
+  pb.textContent=u.charAt(0).toUpperCase()+u.slice(1)+' Priority';
+  pb.style.background=u==='critical'||u==='high'?'var(--red-dim)':u==='medium'?'var(--amber-dim)':'rgba(30,217,160,0.1)';
+  pb.style.color=u==='critical'||u==='high'?'var(--red)':u==='medium'?'var(--amber)':'var(--teal)';
+  trendData.push(stress);if(trendData.length>14)trendData.shift();drawTrendChart();
+  updateSummaryData(p);
+}
+function showVerification(p){
+  const box=document.getElementById('verif-box');
+  document.getElementById('verif-summary').textContent=p.issue_summary+(p.recommended_dept?' → '+p.recommended_dept:'');
+  const tags=document.getElementById('verif-tags');tags.innerHTML='';
+  [{t:p.issue_category,c:''},{t:(p.urgency||'medium')+' urgency',c:p.urgency==='high'||p.urgency==='critical'?'urgent':''},{t:p.language_detected,c:'lang'}].forEach(it=>{
+    const s=document.createElement('span');s.className='vtag '+it.c;s.textContent=it.t;tags.appendChild(s);
+  });
+  box.style.display='block';S.verificationPending=true;S.lastParsed=p;
+}
+function confirmUnderstanding(){
+  document.getElementById('verif-box').style.display='none';
+  addSystemMessage('✓ Understanding verified. Proceeding with resolution. Dept: '+(S.lastParsed?.recommended_dept||'N/A'));
+  showToast('Understanding confirmed — resolution in progress','success');
+  S.verificationPending=false;
+  document.getElementById('conf-bar').style.width='95%';document.getElementById('conf-val').textContent='95%';
+  document.getElementById('conf-bar').style.background='var(--teal)';document.getElementById('conf-val').style.color='var(--teal)';
+  document.getElementById('ai-mode').textContent='Resolving';
+}
+function retryUnderstanding(){
+  document.getElementById('verif-box').style.display='none';S.verificationPending=false;
+  addSystemMessage('Understanding not confirmed. Requesting clarification…');
+  document.getElementById('input-field').value='Please clarify — I want to make sure I understand your issue correctly.';
+  sendMessage();
+}
+function updateSummaryData(p){
+  if(p.issue_summary){document.getElementById('sum-issue').textContent=p.issue_summary;document.getElementById('sum-understanding').textContent=p.verification_statement||p.issue_summary;}
+  if(p.sentiment) document.getElementById('sum-sentiment').textContent='Sentiment: '+(p.sentiment||[]).join(', ')+' | Stress: '+(p.stress_level||0)+'% | Urgency: '+(p.urgency||'medium');
+  if(p.recommended_dept) document.getElementById('sum-action').textContent='Refer to: '+p.recommended_dept+(p.escalate_flag?' · ⚠ Human escalation recommended':'');
+}
+
+// ══════════════════════════════════════════════
+// KARNATAKA MAP (shared incidents data)
+// ══════════════════════════════════════════════
+const INCIDENTS=[
+  {x:0.42,y:0.42,r:70,count:3,color:'255,61,90',type:'food',label:'Bengaluru N.'},
+  {x:0.19,y:0.70,r:50,count:2,color:'255,107,53',type:'food',label:'D. Kannada',active:true},
+  {x:0.55,y:0.22,r:40,count:2,color:'255,179,64',type:'medical'},
+  {x:0.65,y:0.52,r:34,count:2,color:'255,179,64',type:'infra'},
+  {x:0.54,y:0.68,r:28,count:5,color:'34,200,122',type:'admin'},
+  {x:0.30,y:0.48,r:30,count:2,color:'74,158,255',type:'admin'},
+  {x:0.72,y:0.30,r:32,count:1,color:'255,179,64',type:'medical'},
+];
+
+function drawKarnatakaMap(canvas,filter,pulse,showTooltip){
+  const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;
+  if(!W||!H) return;
+  ctx.clearRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle='rgba(74,158,255,0.04)';ctx.lineWidth=1;
+  for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // Karnataka shape
+  const pts=[[0.25,0.06],[0.4,0.04],[0.55,0.07],[0.68,0.04],[0.8,0.1],[0.87,0.2],[0.9,0.35],[0.84,0.5],[0.78,0.63],[0.70,0.76],[0.60,0.86],[0.50,0.92],[0.38,0.9],[0.25,0.82],[0.15,0.70],[0.1,0.55],[0.12,0.38],[0.15,0.25],[0.22,0.14],[0.25,0.06]];
+  ctx.beginPath();ctx.moveTo(pts[0][0]*W,pts[0][1]*H);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0]*W,pts[i][1]*H);
+  ctx.closePath();ctx.fillStyle='rgba(20,35,60,0.65)';ctx.fill();
+  ctx.strokeStyle='rgba(74,158,255,0.2)';ctx.lineWidth=1.5;ctx.stroke();
+  // Cities
+  const cities=[{x:0.42,y:0.45,n:'Bengaluru',major:true},{x:0.19,y:0.70,n:'Mangaluru'},{x:0.44,y:0.2,n:'Dharwad'},{x:0.57,y:0.32,n:'Davangere'},{x:0.70,y:0.18,n:'Kalaburagi'},{x:0.28,y:0.56,n:'Mysuru'},{x:0.62,y:0.6,n:'Kolar'}];
+  cities.forEach(c=>{
+    ctx.fillStyle=c.major?'rgba(74,158,255,0.7)':'rgba(255,255,255,0.2)';
+    ctx.beginPath();ctx.arc(c.x*W,c.y*H,c.major?3.5:2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=c.major?'rgba(74,158,255,0.9)':'rgba(255,255,255,0.3)';
+    ctx.font=(c.major?'500 11px':'400 10px')+'"DM Sans",sans-serif';
+    ctx.textAlign='left';ctx.fillText(c.n,c.x*W+7,c.y*H+4);
+  });
+  // Incidents
+  INCIDENTS.forEach(inc=>{
+    if(filter&&filter!=='all'&&inc.type!==filter) return;
+    const grd=ctx.createRadialGradient(inc.x*W,inc.y*H,0,inc.x*W,inc.y*H,inc.r);
+    grd.addColorStop(0,`rgba(${inc.color},0.3)`);grd.addColorStop(0.5,`rgba(${inc.color},0.07)`);grd.addColorStop(1,`rgba(${inc.color},0)`);
+    ctx.beginPath();ctx.arc(inc.x*W,inc.y*H,inc.r,0,Math.PI*2);ctx.fillStyle=grd;ctx.fill();
+    if(inc.active){
+      const pr=20+Math.abs(Math.sin(pulse))*8;
+      ctx.beginPath();ctx.arc(inc.x*W,inc.y*H,pr,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(${inc.color},${0.5-Math.abs(Math.sin(pulse))*0.4})`;ctx.lineWidth=1.5;ctx.stroke();
+    }
+    ctx.beginPath();ctx.arc(inc.x*W,inc.y*H,15,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${inc.color},0.2)`;ctx.fill();
+    ctx.strokeStyle=`rgba(${inc.color},0.7)`;ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle=`rgb(${inc.color})`;ctx.font='700 11px "Syne",sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(inc.count,inc.x*W,inc.y*H);
+    ctx.textAlign='left';ctx.textBaseline='alphabetic';
+    if(inc.label){ctx.fillStyle=`rgba(${inc.color},0.8)`;ctx.font='500 9px "DM Sans",sans-serif';ctx.textAlign='center';ctx.fillText(inc.label,inc.x*W,inc.y*H+24);ctx.textAlign='left';}
+  });
+  if(showTooltip){
+    // Active call tooltip near Mangaluru
+    const ax=0.19*W,ay=0.70*H;
+    ctx.fillStyle='rgba(10,14,24,0.92)';rr(ctx,ax+18,ay-58,168,58,8);ctx.fill();
+    ctx.strokeStyle='rgba(255,107,53,0.4)';ctx.lineWidth=1;rr(ctx,ax+18,ay-58,168,58,8);ctx.stroke();
+    ctx.fillStyle='rgb(255,107,53)';ctx.font='600 10px "DM Sans",sans-serif';ctx.fillText('● Active Call — D.Kannada',ax+28,ay-40);
+    ctx.fillStyle='rgba(255,255,255,0.4)';ctx.font='400 9px "DM Sans",sans-serif';ctx.fillText('AI Confidence: '+S.confidence+'%',ax+28,ay-26);
+    ctx.fillStyle='rgba(30,217,160,0.9)';ctx.fillText('Ration Card Issue',ax+28,ay-12);
+  }
+  // Legend
+  const legend=[{c:'255,61,90',l:'High Alert'},{c:'255,179,64',l:'Medium Alert'},{c:'34,200,122',l:'Low Alert'},{c:'74,158,255',l:'Resolved'}];
+  const lx=W-148,ly=14;
+  ctx.fillStyle='rgba(8,12,24,0.9)';rr(ctx,lx-8,ly-8,148,legend.length*22+16,8);ctx.fill();
+  legend.forEach((li,i)=>{
+    ctx.beginPath();ctx.arc(lx+6,ly+i*22+6,4,0,Math.PI*2);ctx.fillStyle=`rgba(${li.c},0.9)`;ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.55)';ctx.font='400 10px "DM Sans",sans-serif';ctx.fillText(li.l,lx+15,ly+i*22+10);
+  });
+}
+function rr(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
+
+// SAMPARK MAP
+function initMap(){
+  const wrap=document.getElementById('map-wrap');
+  const canvas=document.getElementById('mapCanvas');
+  function resize(){canvas.width=wrap.offsetWidth;canvas.height=wrap.offsetHeight;}
+  resize();window.addEventListener('resize',()=>{resize();});
+  function loop(){S.mapPulse+=0.04;drawKarnatakaMap(canvas,S.mapFilter,S.mapPulse,true);requestAnimationFrame(loop);}
+  loop();
+}
+function filterMap(btn,type){
+  document.querySelectorAll('.flt-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.mapFilter=type;
+}
+function updateMapWithIncident(cat){
+  const map={food:'food',pension:'admin',water:'infra',medical:'medical',id:'admin',infra:'infra',admin:'admin'};
+  const type=map[cat]||'admin';
+  const idx=INCIDENTS.findIndex(i=>i.type===type);
+  if(idx>-1){INCIDENTS[idx].count++;INCIDENTS[idx].active=true;setTimeout(()=>{INCIDENTS[idx].active=false;},3000);}
+}
+
+// ER MAPS — same Karnataka map, different contexts
+function initERDashboardMap(){
+  const wrap=document.getElementById('er-map-wrap');if(!wrap) return;
+  const canvas=document.getElementById('erMapCanvas');
+  canvas.width=wrap.offsetWidth;canvas.height=wrap.offsetHeight;
+  if(!canvas._initd){
+    canvas._initd=true;let p=0;
+    function loop(){p+=0.04;drawKarnatakaMap(canvas,'all',p,false);requestAnimationFrame(loop);}
+    loop();
+    window.addEventListener('resize',()=>{canvas.width=wrap.offsetWidth;canvas.height=wrap.offsetHeight;});
+  }
+}
+function initERCallMaps(){
+  setTimeout(()=>{
+    initERWaves();
+    // ER map 2 (call page)
+    const wrap2=document.querySelector('.er-map-body');
+    const canvas2=document.getElementById('erMap2Canvas');
+    if(canvas2&&wrap2){
+      canvas2.width=wrap2.offsetWidth;canvas2.height=wrap2.offsetHeight;
+      if(!canvas2._initd){
+        canvas2._initd=true;let p=0;
+        function loop2(){p+=0.04;drawKarnatakaMap(canvas2,S.erMapFilter,p,true);requestAnimationFrame(loop2);}
+        loop2();
+        window.addEventListener('resize',()=>{canvas2.width=wrap2.offsetWidth;canvas2.height=wrap2.offsetHeight;});
+      }
+    }
+  },100);
+}
+function initERAdminMaps(){
+  setTimeout(()=>{
+    initERWaves();
+    drawERAdminStressChart();
+    // Admin bottom map
+    const wrap3=document.getElementById('er-amr-map');
+    const canvas3=document.getElementById('erAdminMapCanvas');
+    if(canvas3&&wrap3){
+      canvas3.width=wrap3.offsetWidth;canvas3.height=wrap3.offsetHeight;
+      if(!canvas3._initd){
+        canvas3._initd=true;let p=0;
+        function loop3(){p+=0.04;drawKarnatakaMap(canvas3,'all',p,false);requestAnimationFrame(loop3);}
+        loop3();
+        window.addEventListener('resize',()=>{canvas3.width=wrap3.offsetWidth;canvas3.height=wrap3.offsetHeight;});
+      }
+    }
+  },100);
+}
+function initERCanvases(){
+  setTimeout(()=>{initERDashboardMap();},100);
+}
+function erFilterMap(btn,type){
+  document.querySelectorAll('.er-mf-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');S.erMapFilter=type;
+}
+
+// ══════════════════════════════════════════════
+// TREND CHART
+// ══════════════════════════════════════════════
+const trendData=[40,55,62,50,48,65,70,68,58,75,80,85];
+function drawTrendChart(){
+  const c=document.getElementById('trendChart');if(!c)return;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+  const toX=i=>(i/(trendData.length-1))*c.width;
+  const toY=v=>c.height-((v/100)*c.height*0.85)-2;
+  ctx.beginPath();trendData.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
+  ctx.strokeStyle='rgba(255,107,53,0.8)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.beginPath();trendData.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
+  ctx.lineTo(toX(trendData.length-1),c.height);ctx.lineTo(0,c.height);ctx.closePath();
+  const g=ctx.createLinearGradient(0,0,0,c.height);g.addColorStop(0,'rgba(255,107,53,0.3)');g.addColorStop(1,'rgba(255,107,53,0)');
+  ctx.fillStyle=g;ctx.fill();
+}
+function drawERTrendChart(){
+  const c=document.getElementById('erTrendChart');if(!c)return;
+  c.width=c.parentElement.offsetWidth-24;c.height=58;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+  const d=[35,25,30,38,20,10,25,38,22,12,28,24];
+  const toX=i=>(i/(d.length-1))*c.width;const toY=v=>c.height-((v/50)*c.height*0.85)-2;
+  ctx.beginPath();d.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
+  ctx.strokeStyle='rgba(255,61,90,0.8)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.beginPath();d.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
+  ctx.lineTo(toX(d.length-1),c.height);ctx.lineTo(0,c.height);ctx.closePath();
+  const g=ctx.createLinearGradient(0,0,0,c.height);g.addColorStop(0,'rgba(255,61,90,0.3)');g.addColorStop(1,'rgba(255,61,90,0)');
+  ctx.fillStyle=g;ctx.fill();
+  // Add defs for gradient fill svg compat
+  const el=document.getElementById('erTrendChart');
+  if(el&&el.parentElement){
+    setTimeout(()=>{const c2=document.getElementById('erTrendChart');if(c2)drawERTrendChart.done=true;},200);
+  }
+}
+function drawERAdminStressChart(){
+  const c=document.getElementById('erAdminStressChart');if(!c)return;
+  const ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);
+  const d=[40,30,35,42,25,15,30,42,28,18,30,40];
+  const toX=i=>(i/(d.length-1))*c.width;const toY=v=>c.height-((v/50)*c.height*0.9)-2;
+  ctx.beginPath();d.forEach((v,i)=>i===0?ctx.moveTo(toX(i),toY(v)):ctx.lineTo(toX(i),toY(v)));
+  ctx.strokeStyle=`rgba(255,61,90,0.8)`;ctx.lineWidth=2;ctx.stroke();
+}
+
+// ══════════════════════════════════════════════
+// CALL ACTIONS (SAMPARK)
+// ══════════════════════════════════════════════
+function endCall(){
+  if(!confirm('End this call? A summary will be generated.')) return;
+  clearInterval(S.timerInt);S.callActive=false;
+  document.getElementById('ai-mode').textContent='Call Ended';
+  addSystemMessage('Call ended. Duration: '+document.getElementById('duration').textContent+'. Generating summary…');
+  openSummary();showToast('Call ended — summary generated','success');
+}
+function transferCall(){openModal('transfer-modal');}
+function toggleMuteAI(){
+  S.isMuted=!S.isMuted;S.callActive=!S.isMuted;
+  const btn=document.getElementById('qbtn-mute');
+  btn.textContent=S.isMuted?'🔊 Unmute AI':'🎤 Mute AI';
+  btn.classList.toggle('active-mode',S.isMuted);
+  addSystemMessage(S.isMuted?'🔇 AI muted. Human agent in direct control.':'🔊 AI reactivated.');
+  showToast(S.isMuted?'AI muted — human mode active':'AI reactivated',S.isMuted?'warning':'success');
+}
+function toggleRecording(){
+  S.isRecording=!S.isRecording;
+  const btn=document.getElementById('qbtn-rec');
+  btn.textContent=S.isRecording?'⏹ Stop Recording':'⏺ Record Call';
+  btn.classList.toggle('rec-active',S.isRecording);
+  showToast(S.isRecording?'Recording started — all audio captured':'Recording stopped and saved',S.isRecording?'success':'warning');
+}
+
+// ══════════════════════════════════════════════
+// CALL ACTIONS (EMERGENCY RESPONSE)
+// ══════════════════════════════════════════════
+function erToggleMute(){
+  S.erMuted=!S.erMuted;
+  ['er-mute-btn'].forEach(id=>{const e=document.getElementById(id);if(e){e.textContent=S.erMuted?'🔊 Unmute AI':'🎤 Mute AI';e.classList.toggle('active-mode',S.erMuted);}});
+  showToast(S.erMuted?'Emergency AI muted':'Emergency AI reactivated',S.erMuted?'warning':'success');
+}
+function erToggleRecord(){
+  S.erRecording=!S.erRecording;
+  showToast(S.erRecording?'Emergency call recording started':'Recording stopped and archived',S.erRecording?'success':'warning');
+}
+function erEndCall(){
+  if(!confirm('End this emergency call?')) return;
+  showToast('Emergency call ended. Incident logged. Debrief generated.','success');
+  document.getElementById('er-call-dur').textContent='00:00';
+  showERPage('admin',null);
+}
+function erTransferCall(){
+  const dept=prompt('Transfer to:','Police — 100 | Fire — 101 | Ambulance — 108');
+  if(dept){showToast('Emergency call transferred to: '+dept,'success');}
+}
+function erTakeOver(){
+  showToast('Human agent has taken over the call. AI monitoring only.','warning');
+  const btn=document.querySelector('.er-act-take');
+  if(btn){btn.textContent='✓ CONTROLLING CALL';btn.style.background='var(--teal)';btn.style.color='#000';}
+}
+function erCallBack(){
+  showToast('Initiating callback to caller…','info');
+  setTimeout(()=>showToast('Callback initiated — connecting to caller','success'),1200);
+}
+function erSwitchTab(tab,type){
+  document.querySelectorAll('.er-clp-tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
+  if(type==='history') showToast('Loading call history — 247 calls logged today','info');
+}
+function erSelectCall(row,name,phone,initials,dur,priority,category){
+  document.querySelectorAll('.er-call-item').forEach(i=>i.classList.remove('selected'));row.classList.add('selected');
+  document.getElementById('er-cdm-av').textContent=initials;
+  document.getElementById('er-cdm-name').textContent=name;
+  document.getElementById('er-cdm-phone').textContent=phone;
+  document.getElementById('er-cdm-dur').textContent=dur;
+  document.getElementById('er-cdm-priority').textContent=priority.toUpperCase()+' PRIORITY';
+  document.getElementById('er-cdm-priority').style.color=priority==='High'?'var(--red)':priority==='Medium'?'var(--amber)':'var(--green)';
+  document.getElementById('er-em-name').textContent=category;
+  document.getElementById('er-em-sub').textContent=priority+' Priority';
+  document.getElementById('er-admin-stress').textContent=priority==='High'?'85%':priority==='Medium'?'55%':'30%';
+  document.getElementById('er-admin-conf').textContent=priority==='High'?'78%':priority==='Medium'?'88%':'94%';
+  // Update stress indicators based on category
+  const stressMap={Fire:['Panicked','Smoke Inhalation','High Anxiety'],Medical:['Panicked','Shortness of Breath','High Anxiety'],Accident:['Disoriented','Pain','High Anxiety'],Flood:['Anxious','Confused'],Missing:['Worried','Calm'],Unknown:['Anxious','Confused']};
+  const stressTags=stressMap[category.split(' ')[0]]||(priority==='High'?['Panicked','High Anxiety']:priority==='Medium'?['Anxious','Confused']:['Calm','Cooperative']);
+  const tagsEl=document.getElementById('er-si-tags');tagsEl.innerHTML='';
+  stressTags.forEach(t=>{const s=document.createElement('span');s.className='er-si-tag '+(priority==='High'?'r':'o');s.textContent=t;tagsEl.appendChild(s);});
+  const icons={Medical:'➕',Fire:'🔥',Police:'🚓',Accident:'🚨',Flood:'🌊',Missing:'🔍',Unknown:'❓'};
+  document.getElementById('er-em-icon').textContent=icons[category.split(' ')[0]]||'🚨';
+  // Karnataka locations per caller
+  const locations={'Vijay Gowda':'📍 Rajajinagar 2nd Block, Bengaluru, Karnataka 560010','Samba Patil':'📍 7th Cross, Bejai, Mangaluru, Karnataka 575004','Unknown Caller':'📍 Location unknown — triangulating…','Meera Setti':'📍 Mysuru Road, Hunsur, Karnataka 571105','Ashwin Kumar':'📍 Vidyanagar, Hubli, Karnataka 580031','Rajnandini Pawar':'📍 Shivamogga Bus Stand Area, Karnataka 577201'};
+  const locEl=document.getElementById('er-location-info');
+  if(locEl){locEl.innerHTML=(locations[name]||'📍 Karnataka, India')+'<br><div class="er-loc-accuracy">Accuracy: High (95%)</div>';}
+  showToast('Viewing call: '+name+' — '+category,'info');
+  drawERAdminStressChart();
+  erRenderAdminConversation(name);
+}
+
+// ══════════════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function openSummary(){document.getElementById('summary-modal').classList.add('open');}
+function confirmEscalate(){
+  const reason=document.getElementById('escalate-reason').value;
+  const notes=document.getElementById('escalate-notes').value;
+  addSystemMessage('⚠ ESCALATED: '+reason+'. Notes: '+(notes||'—')+'. Human agent taking over.');
+  document.getElementById('ai-mode').textContent='Human Mode';
+  S.callActive=false;S.isMuted=true;
+  closeModal('escalate-modal');
+  showToast('Escalated to human agent','warning');
+  const sm=parseInt(document.getElementById('sm-escalations').textContent)||3;
+  document.getElementById('sm-escalations').textContent=sm+1;
+}
+function confirmTransfer(){
+  const to=document.getElementById('transfer-to').value;
+  const note=document.getElementById('transfer-note').value;
+  addSystemMessage('Call transferred to: '+to+(note?' — Note: '+note:''));
+  closeModal('transfer-modal');
+  showToast('Call transferred to '+to,'success');
+}
+function sendBroadcast(){
+  const type=document.getElementById('broadcast-type').value;
+  const msg=document.getElementById('broadcast-msg').value;
+  const to=document.getElementById('broadcast-to').value;
+  closeModal('broadcast-modal');
+  showToast('Broadcast sent to '+to+': '+type,'success');
+}
+function exportSummary(){
+  const content=['SAMPARK AI — Call Summary','========================','Date: '+new Date().toLocaleString(),'Duration: '+document.getElementById('duration').textContent,'','CALLER: '+document.getElementById('sum-caller').textContent,'','ISSUE: '+document.getElementById('sum-issue').textContent,'','AI UNDERSTANDING: '+document.getElementById('sum-understanding').textContent,'','SENTIMENT: '+document.getElementById('sum-sentiment').textContent,'','RECOMMENDED ACTION: '+document.getElementById('sum-action').textContent,'','TRANSCRIPT:',...S.messages.map(m=>`[${m.ts}] ${m.role.toUpperCase()}: ${m.text}`)].join('\n');
+  const blob=new Blob([content],{type:'text/plain'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sampark-summary-'+Date.now()+'.txt';a.click();
+  showToast('Summary exported as .txt','success');
+}
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// ══════════════════════════════════════════════
+// CLOSE OVERLAYS ON CLICK OUTSIDE
+// ══════════════════════════════════════════════
+document.querySelectorAll('.modal-overlay,.summary-overlay').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');});
+});
+
+// ══════════════════════════════════════════════
+// SIMULATE LIVE DATA
+// ══════════════════════════════════════════════
+setInterval(()=>{
+  const el=document.getElementById('stat-active');if(el){const v=parseInt(el.textContent);el.textContent=Math.max(10,v+(Math.random()>0.5?1:-1));}
+  const el2=document.getElementById('sm-calls');if(el2){el2.textContent=parseInt(el2.textContent)+1;}
+},9000);
+
+// ══════════════════════════════════════════════
+// ADMIN CONTROL CENTER — PER-PERSON CONVERSATIONS
+// ══════════════════════════════════════════════
+const ER_CONVERSATIONS = {
+  'Vijay Gowda': [
+    {role:'ai', text:'Emergency 1092. Please state your emergency.', ts:'02:41:05'},
+    {role:'caller', text:'Fire... building mele... neighbour mane suliyuttide! Yellaru odiyaadru!', ts:'02:41:10'},
+    {role:'ai', text:'Sir — fire in your building. Are people trapped? Give me your exact location now.', ts:'02:41:17'},
+    {role:'caller', text:'Rajajinagar 2nd Block... 3rd floor... bega kali...', ts:'02:41:24'},
+    {role:'ai', text:'Fire unit dispatched — Rajajinagar 2nd Block, Bengaluru. ETA 4 minutes. Stay low, cover your mouth.', ts:'02:41:31'},
+  ],
+  'Samba Patil': [
+    {role:'ai', text:'1092 Emergency Services. What is your emergency?', ts:'01:18:02'},
+    {role:'caller', text:'Mane ketta iddhe... smoke barthidhe below floor li... yaavdu mane garage nalli agni', ts:'01:18:09'},
+    {role:'ai', text:'I understand — possible fire in your building garage in Mangaluru. Are you safe? Can you exit?', ts:'01:18:16'},
+    {role:'caller', text:'Naanu safe iddini... but downstairs na tiliyalla... kannada gothilla avrige', ts:'01:18:24'},
+    {role:'ai', text:'Fire team alerted for Bejai, Mangaluru. Please stay above the smoke. Help will arrive in 6 minutes.', ts:'01:18:31'},
+  ],
+  'Unknown Caller': [
+    {role:'ai', text:'Emergency 1092. Please state your emergency.', ts:'00:52:01'},
+    {role:'caller', text:'(inaudible)... help... accident...', ts:'00:52:07'},
+    {role:'ai', text:'I can hear you — there is an accident. Can you tell me where you are? Any landmark nearby?', ts:'00:52:14'},
+    {role:'caller', text:'...highway... NH48... near toll...', ts:'00:52:21'},
+    {role:'ai', text:'Understood — possible accident on NH48 near toll. Triangulating your location. Ambulance and police dispatched.', ts:'00:52:28'},
+  ],
+  'Meera Setti': [
+    {role:'ai', text:'1092 Helpline, how can I assist you?', ts:'03:22:01'},
+    {role:'caller', text:'Hunsur near Mysuru — road accident happened 10 minutes ago. Two vehicles, people injured.', ts:'03:22:08'},
+    {role:'ai', text:'Road accident at Hunsur, Mysuru Road — noted. How many people are injured? Are they conscious?', ts:'03:22:15'},
+    {role:'caller', text:'Three people, two are conscious. One is not responding. We need ambulance fast.', ts:'03:22:23'},
+    {role:'ai', text:'Ambulance dispatched from Hunsur Primary Health Centre — ETA 7 minutes. Keep the unresponsive person still. Do not move them.', ts:'03:22:30'},
+    {role:'caller', text:'Okay, we will wait. Please hurry.', ts:'03:22:37'},
+    {role:'ai', text:'Help is on the way. Stay on the line. Is the road blocked? Should we alert traffic police?', ts:'03:22:44'},
+  ],
+  'Ashwin Kumar': [
+    {role:'ai', text:'Emergency 1092. What is your situation?', ts:'02:10:03'},
+    {role:'caller', text:'Hubli flooding — Vidyanagar area. Water entering houses. Old people stuck.', ts:'02:10:10'},
+    {role:'ai', text:'Flooding in Vidyanagar, Hubli — understood. How many people need evacuation? Ground floor affected?', ts:'02:10:17'},
+    {role:'caller', text:'At least 12 families. Water is knee-deep on ground floor. No power also.', ts:'02:10:24'},
+    {role:'ai', text:'NDRF and municipal rescue teams alerted for Vidyanagar, Hubli. ETA 15 minutes. Move to upper floors immediately.', ts:'02:10:31'},
+    {role:'caller', text:'Some elders cannot move up. Can someone come faster?', ts:'02:10:38'},
+    {role:'ai', text:'Prioritizing elderly and mobility-impaired persons. Local fire rescue also notified. Estimated 10 minutes.', ts:'02:10:45'},
+  ],
+  'Rajnandini Pawar': [
+    {role:'ai', text:'1092 Helpline. Please describe your emergency.', ts:'01:05:02'},
+    {role:'caller', text:'My 8-year-old son is missing since this morning. Last seen near Shivamogga bus stand.', ts:'01:05:09'},
+    {role:'ai', text:'Missing child — 8-year-old boy, Shivamogga bus stand area. What is his name and what was he wearing?', ts:'01:05:16'},
+    {role:'caller', text:'Arjun Pawar. Blue shirt, black shorts. He was going to school. Did not reach.', ts:'01:05:24'},
+    {role:'ai', text:'Arjun Pawar, 8 years, blue shirt, Shivamogga bus stand area. Police alert issued. CCTV review requested at bus stand.', ts:'01:05:31'},
+    {role:'caller', text:'Please find him quickly. I am very worried.', ts:'01:05:38'},
+  ],
+};
+
+let erCurrentCaller = 'Vijay Gowda';
+
+function erRenderAdminConversation(name) {
+  erCurrentCaller = name;
+  const msgs = ER_CONVERSATIONS[name] || [];
+  const container = document.getElementById('er-admin-conv-msgs');
+  if (!container) return;
+  container.innerHTML = '';
+  // Header label
+  const hdr = document.createElement('div');
+  hdr.style.cssText = 'font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;display:flex;align-items:center;gap:6px;font-weight:700';
+  hdr.innerHTML = '<span class="blink-dot" style="background:var(--green)"></span> LIVE TRANSCRIPT — ' + name.toUpperCase();
+  container.appendChild(hdr);
+  msgs.forEach(m => erAppendAdminMsg(container, m.role, m.text, m.ts));
+  container.scrollTop = container.scrollHeight;
+}
+
+function erAppendAdminMsg(container, role, text, ts) {
+  if (!container) container = document.getElementById('er-admin-conv-msgs');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'er-conv-msg';
+  const n = ts || (() => { const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0'); })();
+  let metaHtml = '';
+  if (role === 'ai') metaHtml = `<span class="lbl-ai">⬡ AI Agent</span><span>${n}</span>`;
+  else if (role === 'caller') metaHtml = `<span class="lbl-caller">📞 ${erCurrentCaller}</span><span>${n}</span>`;
+  else metaHtml = `<span class="lbl-admin">🛡 Admin</span><span>${n}</span>`;
+  div.innerHTML = `<div class="er-conv-msg-meta">${metaHtml}</div><div class="er-conv-bubble ${role}">${text}</div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function erAdminSend() {
+  const input = document.getElementById('er-admin-conv-input');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  // Save to conversation store
+  if (!ER_CONVERSATIONS[erCurrentCaller]) ER_CONVERSATIONS[erCurrentCaller] = [];
+  const ts = (() => { const d=new Date(); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0'); })();
+  ER_CONVERSATIONS[erCurrentCaller].push({role:'admin', text, ts});
+  erAppendAdminMsg(null, 'admin', text, ts);
+  showToast('Message sent to ' + erCurrentCaller + '\'s call', 'success');
+}
+
+// Render default conversation on load
+setTimeout(() => { erRenderAdminConversation('Vijay Gowda'); }, 600);
+
+
+</script>
+</body>
+</html>
